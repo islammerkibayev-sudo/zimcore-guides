@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Гайды</title>
+    <style>
+        @font-face {
+            font-family: 'UpMax';
+            src: url('upmax-light.otf') format('opentype');
+            font-weight: 300;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'UpMax';
+            src: url('upmax-regular.otf') format('opentype');
+            font-weight: 400;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'UpMax';
+            src: url('upmax-medium.otf') format('opentype');
+            font-weight: 500;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'UpMax';
+            src: url('upmax-bold.otf') format('opentype');
+            font-weight: 700;
+            font-style: normal;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #08080c;
+            --surface: #111118;
+            --surface2: #18181f;
+            --border: rgba(255,255,255,0.06);
+            --text: #eaeaef;
+            --text2: #7a7a8a;
+            --purple: #6C5CE7;
+            --purple-glow: rgba(108, 92, 231, 0.15);
+            --teal: #00d4aa;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'UpMax', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ─── BG OCEAN CANVAS ─── */
+        #oceanCanvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ─── INTRO SPLASH ─── */
+        .intro-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 9999;
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.3rem;
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .intro-overlay.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .intro-line {
+            overflow: hidden;
+        }
+
+        .intro-word {
+            display: inline-block;
+            font-family: 'UpMax', sans-serif;
+            font-weight: 700;
+            color: var(--text);
+            transform: translateY(120%);
+            opacity: 0;
+            animation: introReveal 1s cubic-bezier(0.16, 1.2, 0.3, 1) forwards;
+        }
+
+        .intro-line-1 .intro-word {
+            font-size: clamp(3rem, 8vw, 7rem);
+            letter-spacing: -0.04em;
+        }
+
+        .intro-line-2 .intro-word {
+            font-size: clamp(1.2rem, 2.5vw, 2rem);
+            font-weight: 400;
+            color: var(--text2);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        .intro-word:nth-child(1) { animation-delay: 0.1s; }
+        .intro-word:nth-child(2) { animation-delay: 0.22s; }
+        .intro-word:nth-child(3) { animation-delay: 0.34s; }
+
+        .intro-line-2 .intro-word:nth-child(1) { animation-delay: 0.5s; }
+        .intro-line-2 .intro-word:nth-child(2) { animation-delay: 0.62s; }
+
+        .intro-divider {
+            width: 0;
+            height: 1.5px;
+            background: linear-gradient(90deg, transparent, var(--purple), var(--teal), transparent);
+            margin: 0.8rem 0;
+            animation: introLine 0.8s 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes introReveal {
+            0% { transform: translateY(120%) rotate(5deg); opacity: 0; }
+            60% { opacity: 1; }
+            100% { transform: translateY(0) rotate(0deg); opacity: 1; }
+        }
+
+        @keyframes introLine {
+            0% { width: 0; }
+            100% { width: min(300px, 50vw); }
+        }
+
+        /* ─── BG LOGOS (removed) ─── */
+        .bg-logo {
+            display: none;
+            position: fixed;
+            top: 50%;
+            width: 70vh;
+            height: 70vh;
+            max-width: 750px;
+            max-height: 750px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bg-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        .bg-logo--right {
+            right: -8vw;
+            transform: translateY(-50%);
+            opacity: 0.15;
+            filter: drop-shadow(0 0 80px var(--purple-glow));
+            will-change: transform;
+        }
+
+        .bg-logo--left {
+            left: -8vw;
+            transform: translateY(-50%) scaleX(-1);
+            opacity: 0.10;
+            filter: drop-shadow(0 0 60px var(--purple-glow));
+            will-change: transform;
+        }
+
+        /* ─── HEADER ─── */
+        .header {
+            position: relative;
+            z-index: 10;
+            padding: 2rem 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border);
+            opacity: 0;
+            animation: fadeIn 0.6s 2.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .header-logo {
+            width: 52px;
+            height: 52px;
+            object-fit: contain;
+        }
+
+        .header-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-tag {
+            font-size: 0.65rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--purple);
+            background: rgba(108, 92, 231, 0.1);
+            padding: 4px 10px;
+            border-radius: 20px;
+            border: 1px solid rgba(108, 92, 231, 0.15);
+        }
+
+        /* ─── THEME TOGGLE SWITCH ─── */
+        .theme-switch {
+            position: relative;
+            width: 56px;
+            height: 28px;
+            border-radius: 50px;
+            background: #1e1e2a;
+            border: 1.5px solid rgba(255,255,255,0.1);
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            flex-shrink: 0;
+        }
+
+        .theme-switch:hover {
+            border-color: rgba(108, 92, 231, 0.4);
+            box-shadow: 0 0 15px rgba(108, 92, 231, 0.15);
+        }
+
+        .theme-knob {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #fff;
+            transition: all 0.5s cubic-bezier(0.16, 1.2, 0.3, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .theme-knob svg {
+            width: 12px;
+            height: 12px;
+            transition: all 0.5s cubic-bezier(0.16, 1.2, 0.3, 1);
+        }
+
+        .theme-knob .icon-moon { color: #1e1e2a; }
+        .theme-knob .icon-sun { color: #f5a623; display: none; }
+
+        /* Light mode — knob slides right */
+        body.light-mode .theme-switch {
+            background: #e8e6e2;
+            border-color: rgba(0,0,0,0.1);
+        }
+
+        body.light-mode .theme-knob {
+            left: calc(100% - 23px);
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+        }
+
+        body.light-mode .theme-knob .icon-moon { display: none; }
+        body.light-mode .theme-knob .icon-sun { display: block; }
+
+        .theme-label {
+            font-size: 0.6rem;
+            font-weight: 500;
+            color: var(--text2);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            transition: color 0.4s;
+        }
+
+        /* ─── LIGHT MODE ─── */
+        body, body * { transition: background-color 0.5s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease; }
+
+        body.light-mode {
+            --bg: #f2f0ed;
+            --surface: #ffffff;
+            --surface2: #f5f5f5;
+            --border: rgba(0,0,0,0.08);
+            --text: #1a1a1a;
+            --text2: #666;
+            --purple: #5b4ccc;
+            --purple-glow: rgba(91, 76, 204, 0.12);
+        }
+
+        body.light-mode .header {
+            border-bottom-color: rgba(0,0,0,0.08);
+            background: rgba(242,240,237,0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        body.light-mode .header-title { color: #1a1a1a; }
+
+        body.light-mode .video-frame {
+            background: #fff;
+            border-color: rgba(0,0,0,0.08);
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.04);
+        }
+
+        body.light-mode .video-frame:hover {
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.06);
+        }
+
+        body.light-mode .video-frame::after {
+            border-color: var(--purple);
+        }
+
+        body.light-mode .video-cover {
+            background: #fafafa;
+        }
+
+        body.light-mode .video-title { color: #1a1a1a; }
+        body.light-mode .video-sub { color: #888; }
+
+        body.light-mode .video-badge {
+            background: #f0f0f0;
+            border-color: rgba(0,0,0,0.06);
+            color: #666;
+        }
+
+        body.light-mode .badge-dot {
+            background: #00b894;
+            box-shadow: 0 0 6px #00b894;
+        }
+
+        body.light-mode .tool-link-row {
+            background: transparent;
+        }
+
+        body.light-mode .tool-link-row::after {
+            background: #fff;
+            border: 1px solid rgba(0,0,0,0.06);
+            border-radius: 10px;
+        }
+
+        body.light-mode .tool-link-row::before {
+            background: linear-gradient(45deg, #5b4ccc, #00b894, #5b4ccc, #e84393, #5b4ccc, #00b894);
+        }
+
+        body.light-mode .tool-icon {
+            background: rgba(91, 76, 204, 0.08);
+            border-color: rgba(91, 76, 204, 0.12);
+        }
+
+        body.light-mode .tool-hint { color: #888; }
+        body.light-mode .tool-hint svg { color: #e0932e; }
+
+        body.light-mode .page-label { color: #00b894; }
+        body.light-mode .page-title { color: #1a1a1a; }
+        body.light-mode .page-desc { color: #777; }
+
+        body.light-mode .header-tag {
+            color: #5b4ccc;
+            background: rgba(91, 76, 204, 0.08);
+            border-color: rgba(91, 76, 204, 0.12);
+        }
+
+        body.light-mode .intro-overlay { background: #f2f0ed; }
+        body.light-mode .intro-word { color: #1a1a1a; }
+        body.light-mode .intro-line-2 .intro-word { color: #888; }
+
+        /* ─── MAIN ─── */
+        .main {
+            position: relative;
+            z-index: 10;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2.5rem 6rem;
+        }
+
+        .page-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--teal);
+            margin-bottom: 0.75rem;
+            opacity: 0;
+            animation: fadeIn 0.6s 2.7s both;
+        }
+
+        .page-title {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 0.5rem;
+            opacity: 0;
+            animation: fadeIn 0.6s 2.8s both;
+        }
+
+        .page-desc {
+            font-size: 0.95rem;
+            font-weight: 300;
+            color: var(--text2);
+            line-height: 1.6;
+            max-width: 520px;
+            margin-bottom: 2.5rem;
+            opacity: 0;
+            animation: fadeIn 0.6s 2.9s both;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ─── HORIZONTAL GRID ─── */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        /* ─── VIDEO CARD ─── */
+        .video-card {
+            opacity: 0;
+            transform: translateY(40px) scale(0.95);
+            animation: cardReveal 0.7s cubic-bezier(0.16, 1.2, 0.3, 1) forwards;
+        }
+
+        .video-card:nth-child(1) { animation-delay: 3.0s; }
+        .video-card:nth-child(2) { animation-delay: 3.15s; }
+        .video-card:nth-child(3) { animation-delay: 3.3s; }
+        .video-card:nth-child(4) { animation-delay: 3.45s; }
+        .video-card:nth-child(5) { animation-delay: 3.6s; }
+        .video-card:nth-child(6) { animation-delay: 3.75s; }
+
+        @keyframes cardReveal {
+            0% { opacity: 0; transform: translateY(40px) scale(0.95); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .video-frame {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            aspect-ratio: 16 / 9;
+            box-shadow:
+                0 4px 20px rgba(0,0,0,0.4),
+                0 0 0 1px rgba(255,255,255,0.03) inset;
+            transition: box-shadow 0.4s ease, transform 0.4s ease;
+        }
+
+        .video-frame:hover {
+            box-shadow:
+                0 8px 30px rgba(0,0,0,0.5),
+                0 0 0 1px rgba(255,255,255,0.05) inset,
+                0 20px 50px -10px rgba(108, 92, 231, 0.12);
+            transform: translateY(-3px);
+        }
+
+        .video-frame::after {
+            content: '';
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            z-index: 2;
+            pointer-events: none;
+            opacity: 0.2;
+            transition: opacity 0.3s;
+            bottom: 6px; right: 6px;
+            border-bottom: 1.5px solid var(--purple);
+            border-right: 1.5px solid var(--purple);
+            border-radius: 0 0 3px 0;
+        }
+
+        .video-frame:hover::after { opacity: 0.5; }
+
+        /* ─── VIDEO COVER ─── */
+        .video-cover {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 3;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: opacity 0.4s ease;
+            border-radius: 12px;
+        }
+
+        .video-cover img {
+            max-width: 65%;
+            max-height: 55%;
+            object-fit: contain;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        .video-cover .play-btn {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .video-cover:hover .play-btn {
+            background: var(--purple);
+            transform: scale(1.1);
+        }
+
+        .video-cover .play-btn svg {
+            width: 14px;
+            height: 14px;
+            color: #555;
+            transition: color 0.3s;
+        }
+
+        .video-cover:hover .play-btn svg { color: #fff; }
+
+        .video-cover.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .video-frame iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+
+        .video-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 0.15rem 0;
+        }
+
+        .video-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .video-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        .video-sub {
+            font-size: 0.7rem;
+            color: var(--text2);
+            font-weight: 400;
+        }
+
+        .video-badge {
+            font-size: 0.6rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 4px 10px;
+            border-radius: 6px;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            color: var(--text2);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .badge-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--teal);
+            box-shadow: 0 0 6px var(--teal);
+        }
+
+        /* ─── TOOL LINK (glow) ─── */
+        .tool-link-row {
+            margin-top: 0.75rem;
+            padding: 0.6rem 0.8rem;
+            background: var(--surface);
+            border: none;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            z-index: 0;
+            cursor: pointer;
+            transition: box-shadow 0.3s;
+        }
+
+        .tool-link-row::before {
+            content: '';
+            background: linear-gradient(45deg, #6C5CE7, #00d4aa, #6C5CE7, #ff00c8, #6C5CE7, #00d4aa);
+            position: absolute;
+            top: -2px; left: -2px;
+            background-size: 400%;
+            z-index: -1;
+            filter: blur(5px);
+            width: calc(100% + 4px);
+            height: calc(100% + 4px);
+            animation: glowing 20s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            border-radius: 10px;
+        }
+
+        .tool-link-row::after {
+            z-index: -1;
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: var(--surface);
+            left: 0; top: 0;
+            border-radius: 10px;
+        }
+
+        .tool-link-row:hover::before {
+            opacity: 1;
+        }
+
+        .tool-link-row:hover {
+            box-shadow: 0 0 20px rgba(108, 92, 231, 0.15);
+        }
+
+        @keyframes glowing {
+            0% { background-position: 0 0; }
+            50% { background-position: 400% 0; }
+            100% { background-position: 0 0; }
+        }
+
+        .tool-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            background: rgba(108, 92, 231, 0.1);
+            border: 1px solid rgba(108, 92, 231, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .tool-icon svg { width: 14px; height: 14px; color: var(--purple); }
+
+        .tool-text {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+        }
+
+        .tool-text a {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--purple);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .tool-text a:hover { color: #8b7bf7; }
+
+        .tool-hint {
+            font-size: 0.65rem;
+            color: var(--text2);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .tool-hint svg {
+            width: 10px;
+            height: 10px;
+            color: #f0a040;
+            flex-shrink: 0;
+        }
+
+        .tool-arrow { color: var(--text2); transition: transform 0.2s; position: relative; z-index: 1; }
+        .tool-link-row:hover .tool-arrow { transform: translateX(3px); color: var(--purple); }
+
+        .tool-icon { position: relative; z-index: 1; }
+        .tool-text { position: relative; z-index: 1; }
+        .tool-arrow svg { width: 14px; height: 14px; }
+
+        @media (max-width: 1024px) {
+            .cards-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 640px) {
+            .header { padding: 1.5rem; }
+            .main { padding: 2rem 1.25rem 4rem; }
+            .cards-grid { grid-template-columns: 1fr; }
+            .bg-logo { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- INTRO SPLASH -->
+    <div class="intro-overlay" id="introOverlay">
+        <div class="intro-line intro-line-1">
+            <span class="intro-word">Zim</span><span class="intro-word">Core</span>
+        </div>
+        <div class="intro-divider"></div>
+        <div class="intro-line intro-line-2">
+            <span class="intro-word">guides</span>
+            <span class="intro-word">lines</span>
+        </div>
+    </div>
+
+    <!-- OCEAN BACKGROUND -->
+    <canvas id="oceanCanvas"></canvas>
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-left">
+            <img class="header-logo" src="Logo3.png" alt="">
+            <span class="header-title">ZimCore</span>
+        </div>
+        <div class="header-right">
+            <span class="header-tag">Guides</span>
+            <div class="theme-switch" id="themeSwitch" onclick="document.body.classList.toggle('light-mode'); ">
+                <div class="theme-knob">
+                    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN -->
+    <main class="main">
+        <div class="page-label">Video Guides</div>
+        <h1 class="page-title">Гайды по тулзам</h1>
+        <p class="page-desc">Пошаговые видеоинструкции по работе с инструментами.<br>Смотри, повторяй, осваивай.</p>
+
+        <div class="cards-grid">
+
+            <!-- VEO3 -->
+            <div class="video-card">
+                <div class="video-frame">
+                    <div class="video-cover" onclick="this.classList.add('hidden')">
+                        <img src="VEO3.png" alt="VEO3">
+                        <span class="play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="8,5 20,12 8,19"/></svg></span>
+                    </div>
+                    <iframe src="https://drive.google.com/file/d/1osWOsQf_khRb21zO9XMhqwdyL6Wr1P5L/preview" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <div class="video-meta">
+                        <span class="video-title">How to use VEO3</span>
+                        <span class="video-sub">Google Flow</span>
+                    </div>
+                    <div class="video-badge"><span class="badge-dot"></span> Video</div>
+                </div>
+                <div class="tool-link-row">
+                    <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
+                    <div class="tool-text">
+                        <a href="https://labs.google/fx/tools/flow" target="_blank" rel="noopener">Link to Tool</a>
+                        <span class="tool-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><circle cx="12" cy="12" r="10"/><path d="M12 17h.01"/></svg> Вход по ключам</span>
+                    </div>
+                    <span class="tool-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+                </div>
+            </div>
+
+            <!-- Midjourney + KlingAI -->
+            <div class="video-card">
+                <div class="video-frame">
+                    <div class="video-cover" onclick="this.classList.add('hidden')">
+                        <img src="Mig Kling.png" alt="Midjourney + KlingAI">
+                        <span class="play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="8,5 20,12 8,19"/></svg></span>
+                    </div>
+                    <iframe src="https://drive.google.com/file/d/1WmsZ7Mwn76JISyy9BWYk1Z8vIzVYn-1R/preview" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <div class="video-meta">
+                        <span class="video-title">How to use Midjourney-KlingAI</span>
+                        <span class="video-sub">Image &amp; Video Generation</span>
+                    </div>
+                    <div class="video-badge"><span class="badge-dot"></span> Video</div>
+                </div>
+                <div style="display: flex; gap: 0.5rem; margin-top: 0.75rem;">
+                    <div class="tool-link-row" style="margin-top: 0; flex: 1;">
+                        <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
+                        <div class="tool-text">
+                            <a href="https://www.midjourney.com/explore?tab=video_top" target="_blank" rel="noopener">Link to Midjourney</a>
+                            <span class="tool-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><circle cx="12" cy="12" r="10"/><path d="M12 17h.01"/></svg> Вход по ключам</span>
+                        </div>
+                        <span class="tool-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+                    </div>
+                    <div class="tool-link-row" style="margin-top: 0; flex: 1;">
+                        <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
+                        <div class="tool-text">
+                            <a href="https://kling.ai/app/video/new?ac=1" target="_blank" rel="noopener">Link to KlingAI</a>
+                            <span class="tool-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><circle cx="12" cy="12" r="10"/><path d="M12 17h.01"/></svg> Вход по ключам</span>
+                        </div>
+                        <span class="tool-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- After Effect -->
+            <div class="video-card">
+                <div class="video-frame">
+                    <div class="video-cover" onclick="this.classList.add('hidden')">
+                        <img src="AE.png" alt="After Effects">
+                        <span class="play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="8,5 20,12 8,19"/></svg></span>
+                    </div>
+                    <iframe src="https://drive.google.com/file/d/1GhF7ys4EO5tl-Extujj3eZiPrebXCx_n/preview" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <div class="video-meta">
+                        <span class="video-title">How to use After Effect</span>
+                        <span class="video-sub">Video Editing</span>
+                    </div>
+                    <div class="video-badge"><span class="badge-dot"></span> Video</div>
+                </div>
+                <div class="tool-link-row">
+                    <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
+                    <div class="tool-text">
+                        <a href="https://www.adobe.com/creativecloud.html" target="_blank" rel="noopener">Link to Tool</a>
+                        <span class="tool-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><circle cx="12" cy="12" r="10"/><path d="M12 17h.01"/></svg> Вход по ключам</span>
+                    </div>
+                    <span class="tool-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+                </div>
+            </div>
+
+            <!-- Arcads -->
+            <div class="video-card">
+                <div class="video-frame">
+                    <div class="video-cover" onclick="this.classList.add('hidden')">
+                        <img src="Arcads.png" alt="Arcads">
+                        <span class="play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="8,5 20,12 8,19"/></svg></span>
+                    </div>
+                    <iframe src="https://drive.google.com/file/d/1v_EpxwlYwCls0rCQCRVXK9JeLrK56UUN/preview" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <div class="video-meta">
+                        <span class="video-title">How to use Arcads</span>
+                        <span class="video-sub">AI Ads</span>
+                    </div>
+                    <div class="video-badge"><span class="badge-dot"></span> Video</div>
+                </div>
+                <div class="tool-link-row">
+                    <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
+                    <div class="tool-text">
+                        <a href="https://www.arcads.ai/?via=rodriguez&gad_source=1&gad_campaignid=23693493248&gbraid=0AAAABDMeEKDlLD-uJkZ4uuf8n0wkGwp3M&gclid=Cj0KCQjwyr3OBhD0ARIsALlo-OnGg-LlqHiorlhEnUHQXIovNqenD0XvcRIPd5cDSYsgf7xlfq9oMBcaAgKTEALw_wcB" target="_blank" rel="noopener">Link to Tool</a>
+                        <span class="tool-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><circle cx="12" cy="12" r="10"/><path d="M12 17h.01"/></svg> Вход по ключам</span>
+                    </div>
+                    <span class="tool-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+                </div>
+            </div>
+
+            <!-- Captions -->
+            <div class="video-card">
+                <div class="video-frame">
+                    <div class="video-cover" onclick="this.classList.add('hidden')">
+                        <img src="Captions.png" alt="Captions">
+                        <span class="play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="8,5 20,12 8,19"/></svg></span>
+                    </div>
+                    <iframe src="https://drive.google.com/file/d/1mIrMO2kvXRlZ_LPe4vB_JJ06vZ1O9PfG/preview" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <div class="video-meta">
+                        <span class="video-title">How to use Captions</span>
+                        <span class="video-sub">Subtitles &amp; Captions</span>
+                    </div>
+                    <div class="video-badge"><span class="badge-dot"></span> Video</div>
+                </div>
+                <div class="tool-link-row">
+                    <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
+                    <div class="tool-text">
+                        <a href="https://desktop.captions.ai/projects" target="_blank" rel="noopener">Link to Tool</a>
+                        <span class="tool-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><circle cx="12" cy="12" r="10"/><path d="M12 17h.01"/></svg> Вход по ключам</span>
+                    </div>
+                    <span class="tool-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+                </div>
+            </div>
+
+            <!-- Elevenlabs -->
+            <div class="video-card">
+                <div class="video-frame">
+                    <div class="video-cover" onclick="this.classList.add('hidden')">
+                        <img src="ElevenL.png" alt="ElevenLabs">
+                        <span class="play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="8,5 20,12 8,19"/></svg></span>
+                    </div>
+                    <iframe src="https://drive.google.com/file/d/1H1mu4RZ7yUnvk1EK-kLKEuBIqSuwvxBN/preview" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <div class="video-meta">
+                        <span class="video-title">How to use Elevenlabs</span>
+                        <span class="video-sub">AI Voice &amp; Audio</span>
+                    </div>
+                    <div class="video-badge"><span class="badge-dot"></span> Video</div>
+                </div>
+                <div class="tool-link-row">
+                    <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
+                    <div class="tool-text">
+                        <a href="https://elevenlabs.io/app/speech-synthesis/text-to-speech" target="_blank" rel="noopener">Link to Tool</a>
+                        <span class="tool-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><circle cx="12" cy="12" r="10"/><path d="M12 17h.01"/></svg> Вход по ключам</span>
+                    </div>
+                    <span class="tool-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+    /* ── Intro fade-out ── */
+    setTimeout(() => {
+        const intro = document.getElementById('introOverlay');
+        intro.classList.add('fade-out');
+        setTimeout(() => intro.remove(), 900);
+    }, 2800);
+
+    (function(){
+        const C = document.getElementById('oceanCanvas');
+        const ctx = C.getContext('2d');
+        let W, H, t = 0;
+
+        function resize(){ W = C.width = window.innerWidth; H = C.height = window.innerHeight; }
+        window.addEventListener('resize', resize); resize();
+
+        /* ── Simplex-like noise (fast 2D) ── */
+        const perm = new Uint8Array(512);
+        const grad2 = [[1,1],[-1,1],[1,-1],[-1,-1],[1,0],[-1,0],[0,1],[0,-1]];
+        for(let i=0;i<256;i++) perm[i]=i;
+        for(let i=255;i>0;i--){ const j=Math.floor(Math.random()*(i+1));[perm[i],perm[j]]=[perm[j],perm[i]]; }
+        for(let i=0;i<256;i++) perm[i+256]=perm[i];
+
+        function noise2D(x,y){
+            const X=Math.floor(x)&255, Y=Math.floor(y)&255;
+            const xf=x-Math.floor(x), yf=y-Math.floor(y);
+            const u=xf*xf*(3-2*xf), v=yf*yf*(3-2*yf);
+            const g00=grad2[perm[perm[X]+Y]%8], g10=grad2[perm[perm[X+1]+Y]%8];
+            const g01=grad2[perm[perm[X]+Y+1]%8], g11=grad2[perm[perm[X+1]+Y+1]%8];
+            const n00=g00[0]*xf+g00[1]*yf, n10=g10[0]*(xf-1)+g10[1]*yf;
+            const n01=g01[0]*xf+g01[1]*(yf-1), n11=g11[0]*(xf-1)+g11[1]*(yf-1);
+            return (n00*(1-u)+n10*u)*(1-v)+(n01*(1-u)+n11*u)*v;
+        }
+
+        /* ── Flow field config ── */
+        const NUM_LINES = 120;
+        const STEPS = 80;
+        const STEP_LEN = 4;
+        const NOISE_SCALE = 0.0025;
+        const TIME_SPEED = 0.0004;
+
+        /* ── Seed positions (spread evenly) ── */
+        let seeds = [];
+        function genSeeds(){
+            seeds = [];
+            for(let i = 0; i < NUM_LINES; i++){
+                seeds.push({
+                    x: Math.random() * W,
+                    y: Math.random() * H,
+                    opacity: 0.04 + Math.random() * 0.08,
+                    width: 0.3 + Math.random() * 1.0
+                });
+            }
+        }
+        genSeeds();
+        window.addEventListener('resize', genSeeds);
+
+        /* ── Draw ── */
+        function frame(){
+            t += TIME_SPEED;
+            ctx.clearRect(0, 0, W, H);
+
+            // Background — adapts to light mode
+            const isLight = document.body.classList.contains('light-mode');
+            ctx.fillStyle = isLight ? '#f2f0ed' : '#08080c';
+            ctx.fillRect(0, 0, W, H);
+
+            const lineColor = isLight ? '0,0,0' : '255,255,255';
+
+            // Draw flow lines
+            seeds.forEach(seed => {
+                let x = seed.x;
+                let y = seed.y;
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+
+                for(let s = 0; s < STEPS; s++){
+                    const angle = noise2D(x * NOISE_SCALE, y * NOISE_SCALE + t) * Math.PI * 4;
+                    x += Math.cos(angle) * STEP_LEN;
+                    y += Math.sin(angle) * STEP_LEN;
+
+                    // wrap
+                    if(x < -20 || x > W+20 || y < -20 || y > H+20) break;
+                    ctx.lineTo(x, y);
+                }
+
+                // Fade along length
+                const fade = seed.opacity;
+                ctx.strokeStyle = `rgba(${lineColor},${fade})`;
+                ctx.lineWidth = seed.width;
+                ctx.lineCap = 'round';
+                ctx.stroke();
+            });
+
+            // Subtle radial vignette
+            const vig = ctx.createRadialGradient(W/2, H/2, W*0.2, W/2, H/2, W*0.8);
+            vig.addColorStop(0, 'transparent');
+            vig.addColorStop(1, isLight ? 'rgba(242,240,237,0.6)' : 'rgba(8,8,12,0.5)');
+            ctx.fillStyle = vig;
+            ctx.fillRect(0, 0, W, H);
+
+            requestAnimationFrame(frame);
+        }
+        frame();
+    })();
+    </script>
+
+</body>
+</html>
