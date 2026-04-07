@@ -758,6 +758,135 @@
         .tool-text { position: relative; z-index: 1; }
         .tool-arrow svg { width: 14px; height: 14px; }
 
+        /* ─── TAB NAVIGATION (glass) ─── */
+        .tab-nav {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeIn 0.6s 2.95s both;
+        }
+
+        .tab-btn {
+            position: relative;
+            padding: 0.65rem 1.5rem;
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.04);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            color: var(--text2);
+            font-family: 'UpMax', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 2px 8px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+
+        .tab-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(108,92,231,0.15), rgba(0,212,170,0.1));
+            opacity: 0;
+            transition: opacity 0.4s;
+            border-radius: 14px;
+        }
+
+        .tab-btn:hover {
+            border-color: rgba(108, 92, 231, 0.25);
+            color: var(--text);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 4px 16px rgba(108,92,231,0.1);
+            transform: translateY(-1px);
+        }
+
+        .tab-btn:hover::before { opacity: 1; }
+
+        .tab-btn.active {
+            border-color: rgba(108, 92, 231, 0.4);
+            color: #fff;
+            background: rgba(108, 92, 231, 0.15);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), 0 4px 20px rgba(108,92,231,0.2), 0 0 30px rgba(108,92,231,0.08);
+        }
+
+        .tab-btn.active::before { opacity: 1; }
+
+        .tab-btn .tab-icon {
+            display: inline-block;
+            margin-right: 6px;
+            vertical-align: middle;
+        }
+
+        .tab-btn .tab-icon svg {
+            width: 16px; height: 16px;
+            vertical-align: middle;
+        }
+
+        .tab-btn .tab-dot {
+            display: inline-block;
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: var(--teal);
+            box-shadow: 0 0 8px var(--teal);
+            margin-right: 8px;
+            vertical-align: middle;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.4s cubic-bezier(0.16, 1.2, 0.3, 1);
+        }
+
+        .tab-btn.active .tab-dot {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        body.light-mode .tab-btn {
+            background: rgba(255,255,255,0.4);
+            border-color: rgba(255,255,255,0.6);
+            color: #888;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.7), 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        body.light-mode .tab-btn:hover {
+            color: #333;
+            border-color: rgba(91, 76, 204, 0.2);
+        }
+
+        body.light-mode .tab-btn.active {
+            background: rgba(91, 76, 204, 0.1);
+            border-color: rgba(91, 76, 204, 0.3);
+            color: #5b4ccc;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), 0 4px 20px rgba(91,76,204,0.1);
+        }
+
+        /* ─── TAB PANELS ─── */
+        .tab-panels {
+            position: relative;
+        }
+
+        .tab-panel {
+            display: none;
+            animation: tabFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        @keyframes tabFadeIn {
+            0% { opacity: 0; transform: translateY(20px) scale(0.98); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes tabFadeOut {
+            0% { opacity: 1; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(-10px) scale(0.98); }
+        }
+
         @media (max-width: 1024px) {
             .cards-grid { grid-template-columns: repeat(2, 1fr); }
         }
@@ -767,6 +896,7 @@
             .main { padding: 2rem 1.25rem 4rem; }
             .cards-grid { grid-template-columns: 1fr; }
             .bg-logo { display: none; }
+            .tab-btn { padding: 0.55rem 1rem; font-size: 0.72rem; }
         }
     </style>
 </head>
@@ -810,171 +940,200 @@
         <h1 class="page-title">Гайды по тулзам</h1>
         <p class="page-desc">Пошаговые видеоинструкции по работе с инструментами.<br>Смотри, повторяй, осваивай.</p>
 
-        <div class="cards-grid">
+        <!-- TAB BUTTONS -->
+        <div class="tab-nav">
+            <button class="tab-btn active" onclick="switchTab('ai')">
+                <span class="tab-dot"></span>
+                <span class="tab-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 1 4 4c0 1.95-1.4 3.58-3.25 3.93L12 10v4"/><circle cx="12" cy="18" r="2"/><path d="M6 12a6 6 0 0 1 12 0"/></svg></span>
+                AI Workflows
+            </button>
+            <button class="tab-btn" onclick="switchTab('motion')">
+                <span class="tab-dot"></span>
+                <span class="tab-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></span>
+                Motion Workflows
+            </button>
+        </div>
 
-            <!-- VEO3 -->
-            <div class="video-card">
-                <div class="video-frame">
-                    <div class="video-cover" onclick="this.classList.add('hidden')">
-                        <img src="VEO3.png" alt="VEO3">
-                        <span class="play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="8,5 20,12 8,19"/></svg></span>
-                    </div>
-                    <iframe src="https://drive.google.com/file/d/1osWOsQf_khRb21zO9XMhqwdyL6Wr1P5L/preview" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                </div>
-                <div class="video-info">
-                    <div class="video-meta">
-                        <span class="video-title">How to use VEO3</span>
-                        <span class="video-sub">Google Flow</span>
-                    </div>
-                    <div class="video-badge"><span class="badge-dot"></span> Video</div>
-                </div>
-                <div class="tool-link-row">
-                    <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
-                    <div class="tool-text">
-                        <a href="https://labs.google/fx/tools/flow" target="_blank" rel="noopener">Link to Tool</a>
-                        <span class="tool-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><circle cx="12" cy="12" r="10"/><path d="M12 17h.01"/></svg> Вход по ключам</span>
-                    </div>
-                    <span class="tool-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-                </div>
-            </div>
+        <!-- TAB PANELS -->
+        <div class="tab-panels">
 
-            <!-- Midjourney + KlingAI -->
-            <div class="video-card">
-                <div class="video-frame">
-                    <div class="video-cover" onclick="this.classList.add('hidden')">
-                        <img src="Mig Kling.png" alt="Midjourney + KlingAI">
-                        <span class="play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="8,5 20,12 8,19"/></svg></span>
-                    </div>
-                    <iframe src="https://drive.google.com/file/d/1WmsZ7Mwn76JISyy9BWYk1Z8vIzVYn-1R/preview" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                </div>
-                <div class="video-info">
-                    <div class="video-meta">
-                        <span class="video-title">How to use Midjourney-KlingAI</span>
-                        <span class="video-sub">Image &amp; Video Generation</span>
-                    </div>
-                    <div class="video-badge"><span class="badge-dot"></span> Video</div>
-                </div>
-                <div style="display: flex; gap: 0.5rem; margin-top: 0.75rem;">
-                    <div class="tool-link-row" style="margin-top: 0; flex: 1;">
-                        <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
-                        <div class="tool-text">
-                            <a href="https://www.midjourney.com/explore?tab=video_top" target="_blank" rel="noopener">Link to Midjourney</a>
-                            <span class="tool-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><circle cx="12" cy="12" r="10"/><path d="M12 17h.01"/></svg> Вход по ключам</span>
+            <!-- ═══ AI WORKFLOWS ═══ -->
+            <div class="tab-panel active" id="tab-ai">
+                <div class="cards-grid">
+
+                    <!-- VEO3 -->
+                    <div class="video-card">
+                        <div class="video-frame">
+                            <div class="video-cover" onclick="this.classList.add('hidden')">
+                                <img src="VEO3.png" alt="VEO3">
+                                <span class="play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="8,5 20,12 8,19"/></svg></span>
+                            </div>
+                            <iframe src="https://drive.google.com/file/d/1osWOsQf_khRb21zO9XMhqwdyL6Wr1P5L/preview" allow="autoplay; encrypted-media" allowfullscreen></iframe>
                         </div>
-                        <span class="tool-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-                    </div>
-                    <div class="tool-link-row" style="margin-top: 0; flex: 1;">
-                        <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
-                        <div class="tool-text">
-                            <a href="https://kling.ai/app/video/new?ac=1" target="_blank" rel="noopener">Link to KlingAI</a>
-                            <span class="tool-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><circle cx="12" cy="12" r="10"/><path d="M12 17h.01"/></svg> Вход по ключам</span>
+                        <div class="video-info">
+                            <div class="video-meta">
+                                <span class="video-title">How to use VEO3</span>
+                                <span class="video-sub">Google Flow</span>
+                            </div>
+                            <div class="video-badge"><span class="badge-dot"></span> Video</div>
                         </div>
-                        <span class="tool-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+                        <div class="tool-link-row">
+                            <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
+                            <div class="tool-text">
+                                <a href="https://labs.google/fx/tools/flow" target="_blank" rel="noopener">Link to Tool</a>
+                                <span class="tool-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><circle cx="12" cy="12" r="10"/><path d="M12 17h.01"/></svg> Вход по ключам</span>
+                            </div>
+                            <span class="tool-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+                        </div>
                     </div>
+
+                    <!-- Midjourney + KlingAI -->
+                    <div class="video-card">
+                        <div class="video-frame">
+                            <div class="video-cover" onclick="this.classList.add('hidden')">
+                                <img src="Mig Kling.png" alt="Midjourney + KlingAI">
+                                <span class="play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="8,5 20,12 8,19"/></svg></span>
+                            </div>
+                            <iframe src="https://drive.google.com/file/d/1WmsZ7Mwn76JISyy9BWYk1Z8vIzVYn-1R/preview" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        </div>
+                        <div class="video-info">
+                            <div class="video-meta">
+                                <span class="video-title">How to use Midjourney-KlingAI</span>
+                                <span class="video-sub">Image &amp; Video Generation</span>
+                            </div>
+                            <div class="video-badge"><span class="badge-dot"></span> Video</div>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem; margin-top: 0.75rem;">
+                            <div class="tool-link-row" style="margin-top: 0; flex: 1;">
+                                <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
+                                <div class="tool-text">
+                                    <a href="https://www.midjourney.com/explore?tab=video_top" target="_blank" rel="noopener">Link to Midjourney</a>
+                                    <span class="tool-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><circle cx="12" cy="12" r="10"/><path d="M12 17h.01"/></svg> Вход по ключам</span>
+                                </div>
+                                <span class="tool-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+                            </div>
+                            <div class="tool-link-row" style="margin-top: 0; flex: 1;">
+                                <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
+                                <div class="tool-text">
+                                    <a href="https://kling.ai/app/video/new?ac=1" target="_blank" rel="noopener">Link to KlingAI</a>
+                                    <span class="tool-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><circle cx="12" cy="12" r="10"/><path d="M12 17h.01"/></svg> Вход по ключам</span>
+                                </div>
+                                <span class="tool-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Arcads -->
+                    <div class="video-card">
+                        <div class="video-frame">
+                            <div class="video-cover" onclick="this.classList.add('hidden')">
+                                <img src="Arcads.png" alt="Arcads">
+                                <span class="play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="8,5 20,12 8,19"/></svg></span>
+                            </div>
+                            <iframe src="https://drive.google.com/file/d/1v_EpxwlYwCls0rCQCRVXK9JeLrK56UUN/preview" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        </div>
+                        <div class="video-info">
+                            <div class="video-meta">
+                                <span class="video-title">How to use Arcads</span>
+                                <span class="video-sub">AI Ads</span>
+                            </div>
+                            <div class="video-badge"><span class="badge-dot"></span> Video</div>
+                        </div>
+                        <div class="tool-link-row">
+                            <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
+                            <div class="tool-text">
+                                <a href="https://www.arcads.ai/?via=rodriguez&gad_source=1&gad_campaignid=23693493248&gbraid=0AAAABDMeEKDlLD-uJkZ4uuf8n0wkGwp3M&gclid=Cj0KCQjwyr3OBhD0ARIsALlo-OnGg-LlqHiorlhEnUHQXIovNqenD0XvcRIPd5cDSYsgf7xlfq9oMBcaAgKTEALw_wcB" target="_blank" rel="noopener">Link to Tool</a>
+                                <span class="tool-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><circle cx="12" cy="12" r="10"/><path d="M12 17h.01"/></svg> Вход по ключам</span>
+                            </div>
+                            <span class="tool-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+                        </div>
+                    </div>
+
+                    <!-- Captions -->
+                    <div class="video-card">
+                        <div class="video-frame">
+                            <div class="video-cover" onclick="this.classList.add('hidden')">
+                                <img src="Captions.png" alt="Captions">
+                                <span class="play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="8,5 20,12 8,19"/></svg></span>
+                            </div>
+                            <iframe src="https://drive.google.com/file/d/1mIrMO2kvXRlZ_LPe4vB_JJ06vZ1O9PfG/preview" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        </div>
+                        <div class="video-info">
+                            <div class="video-meta">
+                                <span class="video-title">How to use Captions</span>
+                                <span class="video-sub">Subtitles &amp; Captions</span>
+                            </div>
+                            <div class="video-badge"><span class="badge-dot"></span> Video</div>
+                        </div>
+                        <div class="tool-link-row">
+                            <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
+                            <div class="tool-text">
+                                <a href="https://desktop.captions.ai/projects" target="_blank" rel="noopener">Link to Tool</a>
+                                <span class="tool-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><circle cx="12" cy="12" r="10"/><path d="M12 17h.01"/></svg> Вход по ключам</span>
+                            </div>
+                            <span class="tool-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+                        </div>
+                    </div>
+
+                    <!-- Elevenlabs -->
+                    <div class="video-card">
+                        <div class="video-frame">
+                            <div class="video-cover" onclick="this.classList.add('hidden')">
+                                <img src="ElevenL.png" alt="ElevenLabs">
+                                <span class="play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="8,5 20,12 8,19"/></svg></span>
+                            </div>
+                            <iframe src="https://drive.google.com/file/d/1H1mu4RZ7yUnvk1EK-kLKEuBIqSuwvxBN/preview" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        </div>
+                        <div class="video-info">
+                            <div class="video-meta">
+                                <span class="video-title">How to use Elevenlabs</span>
+                                <span class="video-sub">AI Voice &amp; Audio</span>
+                            </div>
+                            <div class="video-badge"><span class="badge-dot"></span> Video</div>
+                        </div>
+                        <div class="tool-link-row">
+                            <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
+                            <div class="tool-text">
+                                <a href="https://elevenlabs.io/app/speech-synthesis/text-to-speech" target="_blank" rel="noopener">Link to Tool</a>
+                                <span class="tool-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><circle cx="12" cy="12" r="10"/><path d="M12 17h.01"/></svg> Вход по ключам</span>
+                            </div>
+                            <span class="tool-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
-            <!-- After Effect -->
-            <div class="video-card">
-                <div class="video-frame">
-                    <div class="video-cover" onclick="this.classList.add('hidden')">
-                        <img src="AE.png" alt="After Effects">
-                        <span class="play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="8,5 20,12 8,19"/></svg></span>
-                    </div>
-                    <iframe src="https://drive.google.com/file/d/1GhF7ys4EO5tl-Extujj3eZiPrebXCx_n/preview" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                </div>
-                <div class="video-info">
-                    <div class="video-meta">
-                        <span class="video-title">How to use After Effect</span>
-                        <span class="video-sub">Video Editing</span>
-                    </div>
-                    <div class="video-badge"><span class="badge-dot"></span> Video</div>
-                </div>
-                <div class="tool-link-row">
-                    <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
-                    <div class="tool-text">
-                        <a href="https://www.adobe.com/creativecloud.html" target="_blank" rel="noopener">Link to Tool</a>
-                        <span class="tool-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><circle cx="12" cy="12" r="10"/><path d="M12 17h.01"/></svg> Вход по ключам</span>
-                    </div>
-                    <span class="tool-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-                </div>
-            </div>
+            <!-- ═══ MOTION WORKFLOWS ═══ -->
+            <div class="tab-panel" id="tab-motion">
+                <div class="cards-grid">
 
-            <!-- Arcads -->
-            <div class="video-card">
-                <div class="video-frame">
-                    <div class="video-cover" onclick="this.classList.add('hidden')">
-                        <img src="Arcads.png" alt="Arcads">
-                        <span class="play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="8,5 20,12 8,19"/></svg></span>
+                    <!-- After Effect -->
+                    <div class="video-card" style="animation-delay: 0s;">
+                        <div class="video-frame">
+                            <div class="video-cover" onclick="this.classList.add('hidden')">
+                                <img src="AE.png" alt="After Effects">
+                                <span class="play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="8,5 20,12 8,19"/></svg></span>
+                            </div>
+                            <iframe src="https://drive.google.com/file/d/1GhF7ys4EO5tl-Extujj3eZiPrebXCx_n/preview" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        </div>
+                        <div class="video-info">
+                            <div class="video-meta">
+                                <span class="video-title">How to use After Effect</span>
+                                <span class="video-sub">Video Editing</span>
+                            </div>
+                            <div class="video-badge"><span class="badge-dot"></span> Video</div>
+                        </div>
+                        <div class="tool-link-row">
+                            <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
+                            <div class="tool-text">
+                                <a href="https://www.adobe.com/creativecloud.html" target="_blank" rel="noopener">Link to Tool</a>
+                                <span class="tool-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><circle cx="12" cy="12" r="10"/><path d="M12 17h.01"/></svg> Вход по ключам</span>
+                            </div>
+                            <span class="tool-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+                        </div>
                     </div>
-                    <iframe src="https://drive.google.com/file/d/1v_EpxwlYwCls0rCQCRVXK9JeLrK56UUN/preview" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                </div>
-                <div class="video-info">
-                    <div class="video-meta">
-                        <span class="video-title">How to use Arcads</span>
-                        <span class="video-sub">AI Ads</span>
-                    </div>
-                    <div class="video-badge"><span class="badge-dot"></span> Video</div>
-                </div>
-                <div class="tool-link-row">
-                    <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
-                    <div class="tool-text">
-                        <a href="https://www.arcads.ai/?via=rodriguez&gad_source=1&gad_campaignid=23693493248&gbraid=0AAAABDMeEKDlLD-uJkZ4uuf8n0wkGwp3M&gclid=Cj0KCQjwyr3OBhD0ARIsALlo-OnGg-LlqHiorlhEnUHQXIovNqenD0XvcRIPd5cDSYsgf7xlfq9oMBcaAgKTEALw_wcB" target="_blank" rel="noopener">Link to Tool</a>
-                        <span class="tool-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><circle cx="12" cy="12" r="10"/><path d="M12 17h.01"/></svg> Вход по ключам</span>
-                    </div>
-                    <span class="tool-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-                </div>
-            </div>
 
-            <!-- Captions -->
-            <div class="video-card">
-                <div class="video-frame">
-                    <div class="video-cover" onclick="this.classList.add('hidden')">
-                        <img src="Captions.png" alt="Captions">
-                        <span class="play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="8,5 20,12 8,19"/></svg></span>
-                    </div>
-                    <iframe src="https://drive.google.com/file/d/1mIrMO2kvXRlZ_LPe4vB_JJ06vZ1O9PfG/preview" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                </div>
-                <div class="video-info">
-                    <div class="video-meta">
-                        <span class="video-title">How to use Captions</span>
-                        <span class="video-sub">Subtitles &amp; Captions</span>
-                    </div>
-                    <div class="video-badge"><span class="badge-dot"></span> Video</div>
-                </div>
-                <div class="tool-link-row">
-                    <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
-                    <div class="tool-text">
-                        <a href="https://desktop.captions.ai/projects" target="_blank" rel="noopener">Link to Tool</a>
-                        <span class="tool-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><circle cx="12" cy="12" r="10"/><path d="M12 17h.01"/></svg> Вход по ключам</span>
-                    </div>
-                    <span class="tool-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-                </div>
-            </div>
-
-            <!-- Elevenlabs -->
-            <div class="video-card">
-                <div class="video-frame">
-                    <div class="video-cover" onclick="this.classList.add('hidden')">
-                        <img src="ElevenL.png" alt="ElevenLabs">
-                        <span class="play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="8,5 20,12 8,19"/></svg></span>
-                    </div>
-                    <iframe src="https://drive.google.com/file/d/1H1mu4RZ7yUnvk1EK-kLKEuBIqSuwvxBN/preview" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                </div>
-                <div class="video-info">
-                    <div class="video-meta">
-                        <span class="video-title">How to use Elevenlabs</span>
-                        <span class="video-sub">AI Voice &amp; Audio</span>
-                    </div>
-                    <div class="video-badge"><span class="badge-dot"></span> Video</div>
-                </div>
-                <div class="tool-link-row">
-                    <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
-                    <div class="tool-text">
-                        <a href="https://elevenlabs.io/app/speech-synthesis/text-to-speech" target="_blank" rel="noopener">Link to Tool</a>
-                        <span class="tool-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><circle cx="12" cy="12" r="10"/><path d="M12 17h.01"/></svg> Вход по ключам</span>
-                    </div>
-                    <span class="tool-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
                 </div>
             </div>
 
@@ -982,6 +1141,37 @@
     </main>
 
     <script>
+    /* ── Tab Switching ── */
+    function switchTab(tab) {
+        // Update buttons
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        event.currentTarget.classList.add('active');
+
+        // Animate out current panel
+        const currentPanel = document.querySelector('.tab-panel.active');
+        currentPanel.style.animation = 'tabFadeOut 0.3s cubic-bezier(0.4, 0, 1, 1) forwards';
+
+        setTimeout(() => {
+            // Hide all panels
+            document.querySelectorAll('.tab-panel').forEach(p => {
+                p.classList.remove('active');
+                p.style.animation = '';
+            });
+
+            // Show target panel
+            const target = document.getElementById('tab-' + tab);
+            target.classList.add('active');
+            target.style.animation = 'tabFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards';
+
+            // Re-animate cards inside
+            target.querySelectorAll('.video-card').forEach((card, i) => {
+                card.style.animation = 'none';
+                card.offsetHeight; // trigger reflow
+                card.style.animation = `cardReveal 0.6s ${i * 0.1}s cubic-bezier(0.16, 1.2, 0.3, 1) forwards`;
+            });
+        }, 280);
+    }
+
     /* ── Intro fade-out ── */
     setTimeout(() => {
         const intro = document.getElementById('introOverlay');
