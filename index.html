@@ -770,70 +770,60 @@
         .tab-btn {
             position: relative;
             padding: 0.65rem 1.5rem;
-            border-radius: 14px;
-            border: 1px solid rgba(255,255,255,0.08);
-            background: rgba(255,255,255,0.04);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            border-radius: 50px;
+            border: none;
+            background: var(--surface);
             color: var(--text2);
             font-family: 'UpMax', sans-serif;
             font-size: 0.8rem;
             font-weight: 600;
             letter-spacing: -0.01em;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 2px 8px rgba(0,0,0,0.15);
-            overflow: hidden;
-        }
-
-        .tab-btn::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: linear-gradient(135deg, rgba(108,92,231,0.15), rgba(0,212,170,0.1));
-            opacity: 0;
-            transition: opacity 0.4s;
-            border-radius: 14px;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 6px 6px 14px rgba(0,0,0,0.4), -4px -4px 10px rgba(255,255,255,0.03);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            line-height: 1;
+            white-space: nowrap;
         }
 
         .tab-btn:hover {
-            border-color: rgba(108, 92, 231, 0.25);
             color: var(--text);
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 4px 16px rgba(108,92,231,0.1);
             transform: translateY(-1px);
+            box-shadow: 8px 8px 18px rgba(0,0,0,0.5), -4px -4px 12px rgba(255,255,255,0.04);
         }
 
-        .tab-btn:hover::before { opacity: 1; }
+        .tab-btn:active {
+            transform: translateY(0);
+            box-shadow: inset 4px 4px 10px rgba(0,0,0,0.4), inset -3px -3px 8px rgba(255,255,255,0.03);
+        }
 
         .tab-btn.active {
-            border-color: rgba(108, 92, 231, 0.4);
             color: #fff;
-            background: rgba(108, 92, 231, 0.15);
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), 0 4px 20px rgba(108,92,231,0.2), 0 0 30px rgba(108,92,231,0.08);
+            background: var(--surface2);
+            box-shadow: inset 4px 4px 10px rgba(0,0,0,0.35), inset -3px -3px 8px rgba(255,255,255,0.04);
         }
 
-        .tab-btn.active::before { opacity: 1; }
-
         .tab-btn .tab-icon {
-            display: inline-block;
-            margin-right: 6px;
-            vertical-align: middle;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 16px;
+            height: 16px;
         }
 
         .tab-btn .tab-icon svg {
-            width: 16px; height: 16px;
-            vertical-align: middle;
+            width: 15px; height: 15px;
+            display: block;
         }
 
         .tab-btn .tab-dot {
-            display: inline-block;
             width: 6px; height: 6px;
             border-radius: 50%;
             background: var(--teal);
-            box-shadow: 0 0 8px var(--teal);
-            margin-right: 8px;
-            vertical-align: middle;
+            flex-shrink: 0;
             opacity: 0;
             transform: scale(0);
             transition: all 0.4s cubic-bezier(0.16, 1.2, 0.3, 1);
@@ -845,46 +835,49 @@
         }
 
         body.light-mode .tab-btn {
-            background: rgba(255,255,255,0.4);
-            border-color: rgba(255,255,255,0.6);
+            background: #e4e4ea;
             color: #888;
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.7), 0 2px 8px rgba(0,0,0,0.04);
+            box-shadow: 6px 6px 14px rgba(0,0,0,0.08), -6px -6px 14px rgba(255,255,255,0.9);
         }
 
         body.light-mode .tab-btn:hover {
             color: #333;
-            border-color: rgba(91, 76, 204, 0.2);
         }
 
+        body.light-mode .tab-btn:active,
         body.light-mode .tab-btn.active {
-            background: rgba(91, 76, 204, 0.1);
-            border-color: rgba(91, 76, 204, 0.3);
+            background: #dcdce2;
             color: #5b4ccc;
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), 0 4px 20px rgba(91,76,204,0.1);
+            box-shadow: inset 4px 4px 10px rgba(0,0,0,0.08), inset -4px -4px 10px rgba(255,255,255,0.7);
         }
 
         /* ─── TAB PANELS ─── */
         .tab-panels {
             position: relative;
+            overflow: hidden;
         }
 
         .tab-panel {
-            display: none;
-            animation: tabFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+            transform: translateY(24px);
+            pointer-events: none;
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
         }
 
         .tab-panel.active {
-            display: block;
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+            position: relative;
         }
 
-        @keyframes tabFadeIn {
-            0% { opacity: 0; transform: translateY(20px) scale(0.98); }
-            100% { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        @keyframes tabFadeOut {
-            0% { opacity: 1; transform: translateY(0) scale(1); }
-            100% { opacity: 0; transform: translateY(-10px) scale(0.98); }
+        .tab-panel.exit {
+            opacity: 0;
+            transform: translateY(-16px);
         }
 
         @media (max-width: 1024px) {
