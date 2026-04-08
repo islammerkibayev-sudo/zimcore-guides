@@ -1131,7 +1131,9 @@
             const rect = row.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
-            glow.style.background = `radial-gradient(circle 140px at ${x}px ${y}px, rgba(108,92,231,0.45), rgba(108,92,231,0.1) 50%, transparent 70%)`;
+            const isLight = document.body.classList.contains('light-mode');
+            const c = isLight ? '0,0,0' : '255,255,255';
+            glow.style.background = `radial-gradient(circle 140px at ${x}px ${y}px, rgba(${c},0.4), rgba(${c},0.08) 50%, transparent 70%)`;
         });
     });
 
