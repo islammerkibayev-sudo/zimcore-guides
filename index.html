@@ -360,12 +360,12 @@
         }
 
         body.light-mode .tool-link-row:hover {
-            background: var(--purple);
-            box-shadow: 0 4px 20px rgba(91,76,204,0.35), 0 8px 32px rgba(91,76,204,0.15);
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            box-shadow: 0 6px 24px rgba(0,0,0,0.25), 0 12px 40px rgba(0,0,0,0.12);
         }
 
         body.light-mode .tool-link-row:active {
-            box-shadow: 0 2px 10px rgba(91,76,204,0.25);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
 
         body.light-mode .tool-icon {
@@ -652,25 +652,26 @@
         }
 
         .tool-link-row:hover {
-            background: var(--purple);
-            box-shadow: 0 4px 20px rgba(108,92,231,0.4), 0 8px 32px rgba(108,92,231,0.2);
-            transform: translateY(-2px);
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            box-shadow: 0 6px 24px rgba(0,0,0,0.4), 0 12px 40px rgba(0,0,0,0.2);
+            transform: translateY(-2px) scale(1.02);
+            cursor: none;
         }
 
         .tool-link-row:hover .tool-icon {
-            background: rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.1);
             box-shadow: none;
         }
 
         .tool-link-row:hover .tool-icon svg { color: #fff; }
         .tool-link-row:hover .tool-text a { color: #fff; }
-        .tool-link-row:hover .tool-hint { color: rgba(255,255,255,0.7); }
-        .tool-link-row:hover .tool-hint svg { color: rgba(255,255,255,0.8); }
+        .tool-link-row:hover .tool-hint { color: rgba(255,255,255,0.5); }
+        .tool-link-row:hover .tool-hint svg { color: rgba(255,255,255,0.6); }
         .tool-link-row:hover .tool-arrow { color: #fff; }
 
         .tool-link-row:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 10px rgba(108,92,231,0.3);
+            transform: translateY(0) scale(1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
 
         .tool-icon {
@@ -719,6 +720,26 @@
             color: #f0a040;
             flex-shrink: 0;
             transition: color 0.4s;
+        }
+
+        /* Custom cursor dot */
+        .cursor-dot {
+            position: fixed;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.9);
+            pointer-events: none;
+            z-index: 99999;
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.3s cubic-bezier(0.16, 1.2, 0.3, 1), opacity 0.3s;
+            opacity: 0;
+            mix-blend-mode: difference;
+        }
+
+        .cursor-dot.visible {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
         }
 
         .tool-arrow { color: var(--text2); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); position: relative; z-index: 1; }
@@ -1103,7 +1124,25 @@
         </div>
     </main>
 
+    <div class="cursor-dot" id="cursorDot"></div>
+
     <script>
+    /* ── Custom Cursor on Tool Links ── */
+    const cursorDot = document.getElementById('cursorDot');
+
+    document.querySelectorAll('.tool-link-row').forEach(row => {
+        row.addEventListener('mouseenter', () => {
+            cursorDot.classList.add('visible');
+        });
+        row.addEventListener('mouseleave', () => {
+            cursorDot.classList.remove('visible');
+        });
+        row.addEventListener('mousemove', (e) => {
+            cursorDot.style.left = e.clientX + 'px';
+            cursorDot.style.top = e.clientY + 'px';
+        });
+    });
+
     /* ── Tab Switching ── */
     function switchTab(tab) {
         // Update buttons
