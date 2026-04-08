@@ -765,7 +765,7 @@
             z-index: 0;
         }
 
-        .tool-link-row:hover .cursor-glow {
+        body.light-mode .tool-link-row:hover .cursor-glow {
             opacity: 1;
         }
 
@@ -1352,9 +1352,7 @@
             const rect = row.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
-            const isLight = document.body.classList.contains('light-mode');
-            const c = isLight ? '0,0,0' : '255,255,255';
-            glow.style.background = `radial-gradient(circle 140px at ${x}px ${y}px, rgba(${c},0.4), rgba(${c},0.08) 50%, transparent 70%)`;
+            glow.style.background = `radial-gradient(circle 140px at ${x}px ${y}px, rgba(255,255,255,0.35), rgba(255,255,255,0.08) 50%, transparent 70%)`;
         });
     });
 
