@@ -377,14 +377,17 @@
         }
 
         body:not(.light-mode) .tool-link-row {
-            background: rgba(255,255,255,0.95);
-            border-color: rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.15);
             box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
 
-        body:not(.light-mode) .tool-link-row .tool-text a { color: #5b4ccc; }
-        body:not(.light-mode) .tool-link-row .tool-hint { color: #666; }
-        body:not(.light-mode) .tool-link-row .tool-arrow { color: #666; }
+        body:not(.light-mode) .tool-link-row .tool-text a { color: #a78bfa; }
+        body:not(.light-mode) .tool-link-row .tool-hint { color: rgba(255,255,255,0.5); }
+        body:not(.light-mode) .tool-link-row .tool-hint svg { color: #f0a040; }
+        body:not(.light-mode) .tool-link-row .tool-arrow { color: rgba(255,255,255,0.5); }
+        body:not(.light-mode) .tool-link-row .tool-icon { background: rgba(167,139,250,0.15); }
+        body:not(.light-mode) .tool-link-row .tool-icon svg { color: #a78bfa; }
 
         body:not(.light-mode) .tool-link-row:hover {
             background: linear-gradient(135deg, #1a1a2e, #16213e);
@@ -846,22 +849,23 @@
         }
 
         body:not(.light-mode) .tab-btn {
-            background: rgba(255,255,255,0.95);
-            color: #555;
-            border-color: rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.05);
+            color: rgba(255,255,255,0.7);
+            border: 1px solid rgba(255,255,255,0.15);
             box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
 
         body:not(.light-mode) .tab-btn:hover {
-            color: #222;
+            color: #fff;
+            border-color: rgba(255,255,255,0.3);
             box-shadow: 0 4px 16px rgba(0,0,0,0.3);
         }
 
         body:not(.light-mode) .tab-btn.active {
-            background: #fff;
-            color: #1a1a2e;
-            border-color: transparent;
-            box-shadow: 0 4px 20px rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            border-color: rgba(255,255,255,0.3);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
         }
 
         /* ─── GUIDE STEPS (ZimFrame) ─── */
@@ -899,14 +903,15 @@
             width: 32px;
             height: 32px;
             border-radius: 50%;
-            background: var(--surface);
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.15);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 0.75rem;
             font-weight: 700;
-            color: var(--purple);
-            box-shadow: 4px 4px 10px rgba(0,0,0,0.3), -3px -3px 8px rgba(255,255,255,0.02);
+            color: #a78bfa;
+            box-shadow: none;
         }
 
         body.light-mode .step-number {
@@ -933,7 +938,8 @@
             width: 100%;
             border-radius: 16px;
             overflow: hidden;
-            box-shadow: 4px 4px 12px rgba(0,0,0,0.3), -3px -3px 8px rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.15);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
 
         body.light-mode .step-image {
@@ -944,7 +950,7 @@
         .step-image img {
             width: 100%;
             display: block;
-            border-radius: 16px;
+            border-radius: 15px;
         }
 
         /* ─── TAB PANELS ─── */
