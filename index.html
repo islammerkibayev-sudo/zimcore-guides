@@ -957,6 +957,11 @@
                 <span class="tab-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></span>
                 Motion Workflows
             </button>
+            <button class="tab-btn" onclick="switchTab('zimframe')">
+                <span class="tab-dot"></span>
+                <span class="tab-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></span>
+                ZimFrame Guide
+            </button>
         </div>
 
         <!-- TAB PANELS -->
@@ -1134,6 +1139,38 @@
                             <div class="tool-text">
                                 <a href="https://www.adobe.com/creativecloud.html" target="_blank" rel="noopener">Link to Tool</a>
                                 <span class="tool-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><circle cx="12" cy="12" r="10"/><path d="M12 17h.01"/></svg> Вход по ключам</span>
+                            </div>
+                            <span class="tool-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ═══ ZIMFRAME GUIDE ═══ -->
+            <div class="tab-panel" id="tab-zimframe">
+                <div class="cards-grid">
+
+                    <!-- Placeholder — добавь свои карточки -->
+                    <div class="video-card" style="animation-delay: 0s;">
+                        <div class="video-frame">
+                            <div class="video-cover" onclick="this.classList.add('hidden')">
+                                <img src="Logo3.png" alt="ZimFrame">
+                                <span class="play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="8,5 20,12 8,19"/></svg></span>
+                            </div>
+                            <iframe src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        </div>
+                        <div class="video-info">
+                            <div class="video-meta">
+                                <span class="video-title">ZimFrame Overview</span>
+                                <span class="video-sub">Getting Started</span>
+                            </div>
+                            <div class="video-badge"><span class="badge-dot"></span> Video</div>
+                        </div>
+                        <div class="tool-link-row">
+                            <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
+                            <div class="tool-text">
+                                <a href="#" target="_blank" rel="noopener">Link to ZimFrame</a>
                             </div>
                             <span class="tool-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
                         </div>
