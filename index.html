@@ -863,6 +863,103 @@
             box-shadow: 0 4px 16px rgba(0,0,0,0.15);
         }
 
+        /* ─── GUIDE STEPS (ZimFrame) ─── */
+        .guide-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .guide-step {
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: cardReveal 0.6s cubic-bezier(0.16, 1.2, 0.3, 1) forwards;
+        }
+
+        .guide-step:nth-child(1) { animation-delay: 0.1s; }
+        .guide-step:nth-child(2) { animation-delay: 0.2s; }
+        .guide-step:nth-child(3) { animation-delay: 0.3s; }
+        .guide-step:nth-child(4) { animation-delay: 0.4s; }
+        .guide-step:nth-child(5) { animation-delay: 0.5s; }
+        .guide-step:nth-child(6) { animation-delay: 0.6s; }
+        .guide-step:nth-child(7) { animation-delay: 0.7s; }
+
+        .step-number {
+            flex-shrink: 0;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--surface);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--purple);
+            box-shadow: 4px 4px 10px rgba(0,0,0,0.3), -3px -3px 8px rgba(255,255,255,0.02);
+            margin-top: 0.5rem;
+        }
+
+        body.light-mode .step-number {
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .step-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .step-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 0.4rem;
+        }
+
+        .step-desc {
+            font-size: 0.78rem;
+            color: var(--text2);
+            line-height: 1.5;
+            margin-bottom: 0.75rem;
+        }
+
+        .step-image {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 4px 4px 12px rgba(0,0,0,0.3), -3px -3px 8px rgba(255,255,255,0.02);
+        }
+
+        body.light-mode .step-image {
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.04);
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .step-image img {
+            width: 100%;
+            display: block;
+            border-radius: 12px;
+        }
+
+        .step-connector {
+            position: absolute;
+            left: 18px;
+            top: 36px;
+            bottom: -2rem;
+            width: 1px;
+            background: var(--border);
+        }
+
+        @media (max-width: 640px) {
+            .guide-step { gap: 1rem; }
+            .step-number { width: 28px; height: 28px; font-size: 0.7rem; }
+        }
+
         /* ─── TAB PANELS ─── */
         .tab-panels {
             position: relative;
@@ -1149,33 +1246,87 @@
 
             <!-- ═══ ZIMFRAME GUIDE ═══ -->
             <div class="tab-panel" id="tab-zimframe">
-                <div class="cards-grid">
+                <div class="guide-steps">
 
-                    <!-- Placeholder — добавь свои карточки -->
-                    <div class="video-card" style="animation-delay: 0s;">
-                        <div class="video-frame">
-                            <div class="video-cover" onclick="this.classList.add('hidden')">
-                                <img src="Logo3.png" alt="ZimFrame">
-                                <span class="play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="8,5 20,12 8,19"/></svg></span>
-                            </div>
-                            <iframe src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                        </div>
-                        <div class="video-info">
-                            <div class="video-meta">
-                                <span class="video-title">ZimFrame Overview</span>
-                                <span class="video-sub">Getting Started</span>
-                            </div>
-                            <div class="video-badge"><span class="badge-dot"></span> Video</div>
-                        </div>
-                        <div class="tool-link-row">
-                            <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
-                            <div class="tool-text">
-                                <a href="#" target="_blank" rel="noopener">Link to ZimFrame</a>
-                            </div>
-                            <span class="tool-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+                    <!-- Step 1 -->
+                    <div class="guide-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <div class="step-title">Обзор интерфейса ZimFrame</div>
+                            <div class="step-desc">Tasks — все выполненные задания и видео. Generate — основное окно для промтов и генерации. Scene Builder — вариации VEO. Kling — генерация видео через Kling. AI Design — статичные изображения. More — дополнительное.</div>
+                            <div class="step-image"><img src="zf-1.png" alt="Обзор интерфейса"></div>
                         </div>
                     </div>
 
+                    <!-- Step 2 -->
+                    <div class="guide-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <div class="step-title">Генерация видео — настройки</div>
+                            <div class="step-desc">Даём имя генерации (потом легче искать). Выбираем модель Sora 2, формат 9:16, длительность 20s. Промты пишем через GPT или любую другую ИИшку. Есть отдельный чатик для промтов.</div>
+                            <div class="step-image"><img src="zf-2.png" alt="Генерация видео"></div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="guide-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <div class="step-title">Как писать промты через GPT</div>
+                            <div class="step-desc">Пишем запрос в GPT — получаем несколько вариантов промтов с разными персонажами, стилями и подачей. Каждый промт можно редактировать под себя. Например: добавь больше эмоций или энергии.</div>
+                            <div class="step-image"><img src="zf-3.png" alt="Промты через GPT"></div>
+                        </div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="guide-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <div class="step-title">Вставляем промт и генерируем</div>
+                            <div class="step-desc">Выставляем нужные параметры, даём имя генерации. Вставляем промт из GPT. На всякий случай генерим по 2-3 раза — позже отберём только самое лучшее.</div>
+                            <div class="step-image"><img src="zf-4.png" alt="Настройка параметров"></div>
+                        </div>
+                    </div>
+
+                    <!-- Step 5 -->
+                    <div class="guide-step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <div class="step-title">Просмотр результата</div>
+                            <div class="step-desc">Внимательно просматриваем итоговый результат. Можем наложить субтитры, перевести, скопировать промт, Extend (расширить/удлинить видео) и многое другое.</div>
+                            <div class="step-image"><img src="zf-5.png" alt="Просмотр результата"></div>
+                        </div>
+                    </div>
+
+                    <!-- Step 6 -->
+                    <div class="guide-step">
+                        <div class="step-number">6</div>
+                        <div class="step-content">
+                            <div class="step-title">Управление задачами</div>
+                            <div class="step-desc">Video Generation, Caption Tasks, Resize Tasks, Translation Tasks, Disclaimer Tasks — все типы задач в одном месте. Поиск видео по неймингу среди всех юзеров или только своих.</div>
+                            <div class="step-image"><img src="zf-6.png" alt="Управление задачами"></div>
+                        </div>
+                    </div>
+
+                    <!-- Step 7 -->
+                    <div class="guide-step">
+                        <div class="step-number">7</div>
+                        <div class="step-content">
+                            <div class="step-title">AI Design — статичные изображения</div>
+                            <div class="step-desc">Создаём новый диалог. Можно сразу в нескольких окнах промтить. Пример промта для нескольких вариаций статичных изображений + можно добавлять референсы.</div>
+                            <div class="step-image"><img src="zf-7.png" alt="AI Design"></div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Link to ZimFrame -->
+                <div class="tool-link-row" style="margin-top: 2rem; max-width: 400px;">
+                    <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
+                    <div class="tool-text">
+                        <a href="https://zimframe.com" target="_blank" rel="noopener">Link to ZimFrame</a>
+                    </div>
+                    <span class="tool-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
                 </div>
             </div>
 
