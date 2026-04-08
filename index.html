@@ -355,16 +355,17 @@
         }
 
         body.light-mode .tool-link-row {
-            background: #e4e4ea;
-            box-shadow: 6px 6px 14px rgba(0,0,0,0.08), -6px -6px 14px rgba(255,255,255,0.9);
+            background: #e8e8ee;
+            box-shadow: 4px 4px 10px rgba(0,0,0,0.07), -3px -3px 8px rgba(255,255,255,0.85);
         }
 
         body.light-mode .tool-link-row:hover {
-            box-shadow: 8px 8px 18px rgba(0,0,0,0.1), -6px -6px 16px rgba(255,255,255,0.95);
+            background: var(--purple);
+            box-shadow: 0 4px 20px rgba(91,76,204,0.35), 0 8px 32px rgba(91,76,204,0.15);
         }
 
         body.light-mode .tool-link-row:active {
-            box-shadow: inset 4px 4px 10px rgba(0,0,0,0.08), inset -4px -4px 10px rgba(255,255,255,0.7);
+            box-shadow: 0 2px 10px rgba(91,76,204,0.25);
         }
 
         body.light-mode .tool-icon {
@@ -454,6 +455,7 @@
             opacity: 0;
             transform: translateY(40px) scale(0.95);
             animation: cardReveal 0.7s cubic-bezier(0.16, 1.2, 0.3, 1) forwards;
+            padding-bottom: 6px;
         }
 
         .video-card:nth-child(1) { animation-delay: 3.0s; }
@@ -644,18 +646,31 @@
             gap: 8px;
             position: relative;
             cursor: pointer;
-            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 6px 6px 14px rgba(0,0,0,0.4), -4px -4px 10px rgba(255,255,255,0.03);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 4px 4px 10px rgba(0,0,0,0.3), -3px -3px 8px rgba(255,255,255,0.02);
+            overflow: visible;
         }
 
         .tool-link-row:hover {
-            transform: translateY(-1px);
-            box-shadow: 8px 8px 18px rgba(0,0,0,0.5), -4px -4px 12px rgba(255,255,255,0.04);
+            background: var(--purple);
+            box-shadow: 0 4px 20px rgba(108,92,231,0.4), 0 8px 32px rgba(108,92,231,0.2);
+            transform: translateY(-2px);
         }
+
+        .tool-link-row:hover .tool-icon {
+            background: rgba(255,255,255,0.2);
+            box-shadow: none;
+        }
+
+        .tool-link-row:hover .tool-icon svg { color: #fff; }
+        .tool-link-row:hover .tool-text a { color: #fff; }
+        .tool-link-row:hover .tool-hint { color: rgba(255,255,255,0.7); }
+        .tool-link-row:hover .tool-hint svg { color: rgba(255,255,255,0.8); }
+        .tool-link-row:hover .tool-arrow { color: #fff; }
 
         .tool-link-row:active {
             transform: translateY(0);
-            box-shadow: inset 4px 4px 10px rgba(0,0,0,0.35), inset -3px -3px 8px rgba(255,255,255,0.04);
+            box-shadow: 0 2px 10px rgba(108,92,231,0.3);
         }
 
         .tool-icon {
@@ -668,10 +683,11 @@
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
-            box-shadow: inset 2px 2px 5px rgba(0,0,0,0.3), inset -2px -2px 5px rgba(255,255,255,0.03);
+            box-shadow: inset 2px 2px 5px rgba(0,0,0,0.2), inset -2px -2px 5px rgba(255,255,255,0.02);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .tool-icon svg { width: 14px; height: 14px; color: var(--purple); }
+        .tool-icon svg { width: 14px; height: 14px; color: var(--purple); transition: color 0.4s; }
 
         .tool-text {
             flex: 1;
@@ -685,10 +701,8 @@
             font-weight: 600;
             color: var(--purple);
             text-decoration: none;
-            transition: color 0.2s;
+            transition: color 0.4s;
         }
-
-        .tool-text a:hover { color: #8b7bf7; }
 
         .tool-hint {
             font-size: 0.65rem;
@@ -696,6 +710,7 @@
             display: flex;
             align-items: center;
             gap: 4px;
+            transition: color 0.4s;
         }
 
         .tool-hint svg {
@@ -703,10 +718,11 @@
             height: 10px;
             color: #f0a040;
             flex-shrink: 0;
+            transition: color 0.4s;
         }
 
-        .tool-arrow { color: var(--text2); transition: transform 0.2s; position: relative; z-index: 1; }
-        .tool-link-row:hover .tool-arrow { transform: translateX(3px); color: var(--purple); }
+        .tool-arrow { color: var(--text2); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); position: relative; z-index: 1; }
+        .tool-link-row:hover .tool-arrow { transform: translateX(3px); }
 
         .tool-icon { position: relative; z-index: 1; }
         .tool-text { position: relative; z-index: 1; }
