@@ -1551,8 +1551,8 @@
             { id: 'zimframe', title: 'ZimFrame настроил?', desc: 'Там пошаговый гайд, не пропусти', tab: 'zimframe', cardIndex: -1 },
         ];
 
-        const INTERVAL = 90000; // 90 секунд между уведомлениями
-        const DISMISS_COOLDOWN = 300000; // 5 минут если закрыл
+        const INTERVAL = 40000; // 40 секунд между уведомлениями
+        const DISMISS_COOLDOWN = 60000; // 1 минута если закрыл
         const STORAGE_KEY = 'zimcore_seen_guides';
 
         const popup = document.getElementById('notifPopup');
@@ -1641,7 +1641,7 @@
         });
 
         // Первое уведомление через 30 сек, далее каждые 90 сек
-        setTimeout(showNotif, 30000);
+        setTimeout(showNotif, 15000);
         setInterval(showNotif, INTERVAL);
     })();
 
