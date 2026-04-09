@@ -946,12 +946,68 @@
         .guide-steps {
             display: flex;
             flex-direction: column;
-            gap: 3rem;
+            gap: 0;
+            max-width: 900px;
+            margin: 0 auto;
+            height: 75vh;
+            overflow-y: auto;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+            border-radius: 20px;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .guide-steps::-webkit-scrollbar { display: none; }
+
+        .guide-steps-wrapper {
+            position: relative;
             max-width: 900px;
             margin: 0 auto;
         }
 
+        .guide-dots {
+            position: absolute;
+            right: -40px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 20;
+        }
+
+        .guide-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(167,139,250,0.25);
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .guide-dot.active {
+            background: #a78bfa;
+            transform: scale(1.4);
+            box-shadow: 0 0 10px rgba(167,139,250,0.5);
+        }
+
+        @media (max-width: 1024px) {
+            .guide-dots { right: -28px; }
+        }
+        @media (max-width: 640px) {
+            .guide-dots { display: none; }
+        }
+
         .guide-step {
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+            min-height: 75vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 2rem 0;
             opacity: 0;
             transform: translateY(30px);
             animation: cardReveal 0.6s cubic-bezier(0.16, 1.2, 0.3, 1) forwards;
@@ -1448,7 +1504,17 @@
                     </div>
                 </div>
 
-                <div class="guide-steps">
+                <div class="guide-steps-wrapper">
+                <div class="guide-dots" id="guideDots">
+                    <button class="guide-dot active" data-step="0"></button>
+                    <button class="guide-dot" data-step="1"></button>
+                    <button class="guide-dot" data-step="2"></button>
+                    <button class="guide-dot" data-step="3"></button>
+                    <button class="guide-dot" data-step="4"></button>
+                    <button class="guide-dot" data-step="5"></button>
+                    <button class="guide-dot" data-step="6"></button>
+                </div>
+                <div class="guide-steps" id="guideSteps">
 
                     <!-- Step 1 -->
                     <div class="guide-step">
@@ -1521,6 +1587,7 @@
                     </div>
 
                 </div>
+                </div> <!-- /guide-steps-wrapper -->
             </div>
 
         </div>
@@ -1837,6 +1904,34 @@
                 setTimeout(() => badge.classList.add('hidden'), 400);
             }
         }
+    })();
+
+    /* ── Guide Steps Snap Dots ── */
+    (function() {
+        const container = document.getElementById('guideSteps');
+        const dots = document.querySelectorAll('.guide-dot');
+        if (!container || !dots.length) return;
+
+        // Update active dot on scroll
+        container.addEventListener('scroll', () => {
+            const steps = container.querySelectorAll('.guide-step');
+            const scrollTop = container.scrollTop;
+            const stepHeight = container.clientHeight;
+            const activeIndex = Math.round(scrollTop / stepHeight);
+
+            dots.forEach((d, i) => {
+                d.classList.toggle('active', i === activeIndex);
+            });
+        });
+
+        // Click dot → scroll to step
+        dots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const idx = parseInt(dot.dataset.step);
+                const stepHeight = container.clientHeight;
+                container.scrollTo({ top: idx * stepHeight, behavior: 'smooth' });
+            });
+        });
     })();
 
     </script>
