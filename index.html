@@ -669,6 +669,69 @@
 
         .video-cover:hover .play-btn svg { color: #fff; }
 
+        /* ─── STATIC COVER (Guide cards) ─── */
+        .static-cover {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 3;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .static-cover img {
+            max-width: 65%;
+            max-height: 55%;
+            object-fit: contain;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        .static-badge {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0,0,0,0.06);
+            border: 1px solid rgba(0,0,0,0.08);
+            border-radius: 20px;
+            padding: 6px 14px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: #555;
+            transition: all 0.3s;
+        }
+
+        .static-badge svg { width: 13px; height: 13px; }
+
+        .static-cover:hover .static-badge {
+            background: rgba(0,212,170,0.1);
+            border-color: rgba(0,212,170,0.25);
+            color: #00b894;
+        }
+
+        body:not(.light-mode) .static-cover {
+            background: #111118;
+        }
+
+        body:not(.light-mode) .static-badge {
+            background: rgba(255,255,255,0.06);
+            border-color: rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.6);
+        }
+
+        body:not(.light-mode) .static-cover:hover .static-badge {
+            background: rgba(0,212,170,0.15);
+            color: #00d4aa;
+        }
+
         .video-cover.hidden {
             opacity: 0;
             pointer-events: none;
@@ -1449,6 +1512,32 @@
                         </div>
                     </div>
 
+                    <!-- Adobe Express -->
+                    <div class="video-card" data-guide-id="adobe-express">
+                        <span class="new-badge">NEW</span>
+                        <div class="video-frame">
+                            <a href="https://express.adobe.com/home/tools/animate-from-audio?postlogin=true" target="_blank" rel="noopener" class="static-cover">
+                                <img src="Adobe Express.png" alt="Adobe Express">
+                                <span class="static-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> Инструкция</span>
+                            </a>
+                        </div>
+                        <div class="video-info">
+                            <div class="video-meta">
+                                <span class="video-title">How to use Adobe Express</span>
+                                <span class="video-sub">Animate from Audio</span>
+                            </div>
+                            <div class="video-badge" style="background: rgba(0,212,170,0.08); color: #00d4aa; border-color: rgba(0,212,170,0.15);"><span class="badge-dot" style="background: #00d4aa;"></span> Guide</div>
+                        </div>
+                        <div class="tool-link-row">
+                            <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
+                            <div class="tool-text">
+                                <a href="https://express.adobe.com/home/tools/animate-from-audio?postlogin=true" target="_blank" rel="noopener">Link to Tool</a>
+                                <span class="tool-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><circle cx="12" cy="12" r="10"/><path d="M12 17h.01"/></svg> Вход по ключам</span>
+                            </div>
+                            <span class="tool-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -1614,6 +1703,7 @@
             { id: 'arcads', title: 'Arcads уже освоил?', desc: 'Посмотри гайд — там про AI-рекламу', tab: 'ai', cardIndex: 2 },
             { id: 'captions', title: 'Captions смотрел? Загляни', desc: 'Субтитры делать надо уметь, зацени гайд', tab: 'ai', cardIndex: 3 },
             { id: 'elevenlabs', title: 'ElevenLabs — озвучка на AI', desc: 'Глянь как работает, пригодится', tab: 'ai', cardIndex: 4 },
+            { id: 'adobe-express', title: 'Adobe Express видел?', desc: 'Там гайд по анимации из аудио — зацени', tab: 'ai', cardIndex: 5 },
             { id: 'aftereffect', title: 'After Effects разобрал?', desc: 'Без этого никуда — посмотри гайд', tab: 'motion', cardIndex: 0 },
             { id: 'zimframe', title: 'ZimFrame настроил?', desc: 'Там пошаговый гайд, не пропусти', tab: 'zimframe', cardIndex: -1 },
         ];
