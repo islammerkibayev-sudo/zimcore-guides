@@ -184,7 +184,7 @@
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             opacity: 0;
-            animation: fadeIn 0.6s 2.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: fadeIn 0.6s 1.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         .header-left {
@@ -443,7 +443,7 @@
             color: var(--teal);
             margin-bottom: 0.75rem;
             opacity: 0;
-            animation: fadeIn 0.6s 2.7s both;
+            animation: fadeIn 0.6s 1.35s both;
         }
 
         .page-title {
@@ -453,7 +453,7 @@
             line-height: 1.1;
             margin-bottom: 0.5rem;
             opacity: 0;
-            animation: fadeIn 0.6s 2.8s both;
+            animation: fadeIn 0.6s 1.4s both;
         }
 
         .page-desc {
@@ -464,7 +464,7 @@
             max-width: 520px;
             margin-bottom: 2.5rem;
             opacity: 0;
-            animation: fadeIn 0.6s 2.9s both;
+            animation: fadeIn 0.6s 1.45s both;
         }
 
         @keyframes fadeIn {
@@ -479,6 +479,78 @@
             gap: 1.5rem;
         }
 
+        /* ─── SCROLL TO TOP BUTTON ─── */
+        .scroll-top-btn {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+            transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s;
+            background: #f0f0f4;
+            box-shadow: 6px 6px 14px rgba(0,0,0,0.12), -4px -4px 10px rgba(255,255,255,0.9), inset 0 1px 0 rgba(255,255,255,0.6);
+            color: #1a1a2e;
+        }
+        .scroll-top-btn.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        .scroll-top-btn:hover {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: #fff;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.15), 0 0 40px rgba(255,255,255,0.4);
+        }
+        .scroll-top-btn:active { transform: scale(0.92); }
+        .scroll-top-btn svg { width: 22px; height: 22px; }
+
+        body:not(.light-mode) .scroll-top-btn {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: rgba(255,255,255,0.7);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+        }
+        body:not(.light-mode) .scroll-top-btn:hover {
+            background: rgba(255,255,255,0.12);
+            color: #fff;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.4);
+        }
+
+        /* ─── NEW BADGE ─── */
+        .video-card, .guide-step { position: relative; }
+        .new-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: linear-gradient(135deg, #a78bfa, #6c5ce7);
+            color: #fff;
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 3px 10px;
+            border-radius: 20px;
+            z-index: 10;
+            box-shadow: 0 2px 12px rgba(108, 92, 231, 0.4);
+            animation: badgePulse 2s ease-in-out infinite;
+            pointer-events: none;
+        }
+        .new-badge.hidden { display: none; }
+        @keyframes badgePulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 2px 12px rgba(108, 92, 231, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 4px 20px rgba(108, 92, 231, 0.6); }
+        }
+
         /* ─── VIDEO CARD ─── */
         .video-card {
             opacity: 0;
@@ -487,12 +559,12 @@
             padding-bottom: 6px;
         }
 
-        .video-card:nth-child(1) { animation-delay: 3.0s; }
-        .video-card:nth-child(2) { animation-delay: 3.15s; }
-        .video-card:nth-child(3) { animation-delay: 3.3s; }
-        .video-card:nth-child(4) { animation-delay: 3.45s; }
-        .video-card:nth-child(5) { animation-delay: 3.6s; }
-        .video-card:nth-child(6) { animation-delay: 3.75s; }
+        .video-card:nth-child(1) { animation-delay: 1.55s; }
+        .video-card:nth-child(2) { animation-delay: 1.65s; }
+        .video-card:nth-child(3) { animation-delay: 1.75s; }
+        .video-card:nth-child(4) { animation-delay: 1.85s; }
+        .video-card:nth-child(5) { animation-delay: 1.95s; }
+        .video-card:nth-child(6) { animation-delay: 2.05s; }
 
         @keyframes cardReveal {
             0% { opacity: 0; transform: translateY(40px) scale(0.95); }
@@ -782,7 +854,7 @@
             gap: 0.5rem;
             margin-bottom: 2rem;
             opacity: 0;
-            animation: fadeIn 0.6s 2.95s both;
+            animation: fadeIn 0.6s 1.5s both;
         }
 
         .tab-btn {
@@ -1171,7 +1243,8 @@
                 <div class="cards-grid">
 
                     <!-- VEO3 -->
-                    <div class="video-card">
+                    <div class="video-card" data-guide-id="veo3">
+                        <span class="new-badge">NEW</span>
                         <div class="video-frame">
                             <div class="video-cover" onclick="this.classList.add('hidden')">
                                 <img src="VEO3.png" alt="VEO3">
@@ -1197,7 +1270,8 @@
                     </div>
 
                     <!-- Midjourney + KlingAI -->
-                    <div class="video-card">
+                    <div class="video-card" data-guide-id="midjourney-kling">
+                        <span class="new-badge">NEW</span>
                         <div class="video-frame">
                             <div class="video-cover" onclick="this.classList.add('hidden')">
                                 <img src="Mig Kling.png" alt="Midjourney + KlingAI">
@@ -1233,7 +1307,8 @@
                     </div>
 
                     <!-- Arcads -->
-                    <div class="video-card">
+                    <div class="video-card" data-guide-id="arcads">
+                        <span class="new-badge">NEW</span>
                         <div class="video-frame">
                             <div class="video-cover" onclick="this.classList.add('hidden')">
                                 <img src="Arcads.png" alt="Arcads">
@@ -1259,7 +1334,8 @@
                     </div>
 
                     <!-- Captions -->
-                    <div class="video-card">
+                    <div class="video-card" data-guide-id="captions">
+                        <span class="new-badge">NEW</span>
                         <div class="video-frame">
                             <div class="video-cover" onclick="this.classList.add('hidden')">
                                 <img src="Captions.png" alt="Captions">
@@ -1285,7 +1361,8 @@
                     </div>
 
                     <!-- Elevenlabs -->
-                    <div class="video-card">
+                    <div class="video-card" data-guide-id="elevenlabs">
+                        <span class="new-badge">NEW</span>
                         <div class="video-frame">
                             <div class="video-cover" onclick="this.classList.add('hidden')">
                                 <img src="ElevenL.png" alt="ElevenLabs">
@@ -1318,7 +1395,8 @@
                 <div class="cards-grid">
 
                     <!-- After Effect -->
-                    <div class="video-card" style="animation-delay: 0s;">
+                    <div class="video-card" data-guide-id="after-effects" style="animation-delay: 0s;">
+                        <span class="new-badge">NEW</span>
                         <div class="video-frame">
                             <div class="video-cover" onclick="this.classList.add('hidden')">
                                 <img src="AE.png" alt="After Effects">
@@ -1613,7 +1691,7 @@
         const intro = document.getElementById('introOverlay');
         intro.classList.add('fade-out');
         setTimeout(() => intro.remove(), 900);
-    }, 2800);
+    }, 1400);
 
     (function(){
         const C = document.getElementById('oceanCanvas');
@@ -1712,7 +1790,72 @@
         }
         frame();
     })();
+
+    /* ── NEW Badge System ── */
+    (function() {
+        const STORAGE_KEY = 'zimcore_seen_guides';
+        const seen = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+
+        // Hide badges for already-seen guides
+        document.querySelectorAll('[data-guide-id]').forEach(card => {
+            const id = card.dataset.guideId;
+            if (seen[id]) {
+                const badge = card.querySelector('.new-badge');
+                if (badge) badge.classList.add('hidden');
+            }
+        });
+
+        // Mark as seen when user interacts (play video or click link)
+        document.querySelectorAll('[data-guide-id]').forEach(card => {
+            const id = card.dataset.guideId;
+
+            // Click on video cover (play)
+            const cover = card.querySelector('.video-cover');
+            if (cover) {
+                cover.addEventListener('click', () => markSeen(card, id));
+            }
+
+            // Click on tool link
+            card.querySelectorAll('.tool-link-row a').forEach(a => {
+                a.addEventListener('click', () => markSeen(card, id));
+            });
+        });
+
+        function markSeen(card, id) {
+            seen[id] = Date.now();
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(seen));
+            const badge = card.querySelector('.new-badge');
+            if (badge) {
+                badge.style.transition = 'opacity 0.4s, transform 0.4s';
+                badge.style.opacity = '0';
+                badge.style.transform = 'scale(0.5)';
+                setTimeout(() => badge.classList.add('hidden'), 400);
+            }
+        }
+    })();
+
+    /* ── Scroll to Top Button ── */
+    (function() {
+        const btn = document.getElementById('scrollTopBtn');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 400) {
+                btn.classList.add('visible');
+            } else {
+                btn.classList.remove('visible');
+            }
+        });
+        btn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    })();
     </script>
+
+    <button class="scroll-top-btn" id="scrollTopBtn" aria-label="Scroll to top">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 19V5"/>
+            <path d="m5 12 7-7 7 7"/>
+        </svg>
+    </button>
 
 </body>
 </html>
