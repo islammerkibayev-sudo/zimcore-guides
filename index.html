@@ -961,6 +961,107 @@
             border-radius: 15px;
         }
 
+        /* ─── NOTIFICATION POPUP ─── */
+        .notif-popup {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 9000;
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 16px;
+            padding: 1rem 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            max-width: 360px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 60px rgba(108,92,231,0.08);
+            transform: translateY(120%) scale(0.95);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.16, 1.2, 0.3, 1);
+        }
+
+        .notif-popup.show {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+
+        .notif-popup:hover {
+            border-color: rgba(108,92,231,0.3);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 40px rgba(108,92,231,0.15);
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .notif-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: rgba(108,92,231,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .notif-icon svg { width: 18px; height: 18px; color: #a78bfa; }
+
+        .notif-body { flex: 1; min-width: 0; }
+
+        .notif-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 2px;
+        }
+
+        .notif-desc {
+            font-size: 0.68rem;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .notif-close {
+            position: absolute;
+            top: 8px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.3);
+            cursor: pointer;
+            font-size: 14px;
+            padding: 2px;
+            line-height: 1;
+            transition: color 0.2s;
+        }
+
+        .notif-close:hover { color: #fff; }
+
+        .notif-badge {
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #00d4aa;
+            box-shadow: 0 0 8px #00d4aa;
+        }
+
+        body.light-mode .notif-popup {
+            background: #fff;
+            border: 1px solid rgba(0,0,0,0.08);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12), 0 0 60px rgba(108,92,231,0.06);
+        }
+
+        body.light-mode .notif-title { color: #1a1a2e; }
+        body.light-mode .notif-desc { color: #888; }
+        body.light-mode .notif-close { color: rgba(0,0,0,0.3); }
+        body.light-mode .notif-close:hover { color: #1a1a2e; }
+
+        @media (max-width: 640px) {
+            .notif-popup { right: 12px; bottom: 12px; left: 12px; max-width: none; }
+        }
+
         /* ─── TAB PANELS ─── */
         .tab-panels {
             position: relative;
@@ -1341,7 +1442,126 @@
         </div>
     </main>
 
+    <!-- NOTIFICATION POPUP -->
+    <div class="notif-popup" id="notifPopup">
+        <div class="notif-badge"></div>
+        <div class="notif-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+        </div>
+        <div class="notif-body">
+            <div class="notif-title" id="notifTitle"></div>
+            <div class="notif-desc" id="notifDesc"></div>
+        </div>
+        <button class="notif-close" id="notifClose">&times;</button>
+    </div>
+
     <script>
+    /* ── Notification Reminder System ── */
+    (function() {
+        const guides = [
+            { id: 'veo3', title: 'Ты посмотрел гайд по VEO3?', desc: 'Google Flow — генерация видео', tab: 'ai', cardIndex: 0 },
+            { id: 'midjourney', title: 'Гайд по Midjourney + KlingAI', desc: 'Генерация изображений и видео', tab: 'ai', cardIndex: 1 },
+            { id: 'arcads', title: 'Знаешь как работать с Arcads?', desc: 'AI реклама — посмотри гайд', tab: 'ai', cardIndex: 2 },
+            { id: 'captions', title: 'Гайд по Captions ждёт тебя', desc: 'Субтитры и капшены', tab: 'ai', cardIndex: 3 },
+            { id: 'elevenlabs', title: 'ElevenLabs — озвучка через AI', desc: 'Посмотри как это работает', tab: 'ai', cardIndex: 4 },
+            { id: 'aftereffect', title: 'After Effects гайд', desc: 'Основы видеомонтажа', tab: 'motion', cardIndex: 0 },
+            { id: 'zimframe', title: 'Разобрался с ZimFrame?', desc: 'Пошаговый гайд по платформе', tab: 'zimframe', cardIndex: -1 },
+        ];
+
+        const INTERVAL = 90000; // 90 секунд между уведомлениями
+        const DISMISS_COOLDOWN = 300000; // 5 минут если закрыл
+        const STORAGE_KEY = 'zimcore_seen_guides';
+
+        const popup = document.getElementById('notifPopup');
+        const titleEl = document.getElementById('notifTitle');
+        const descEl = document.getElementById('notifDesc');
+        const closeBtn = document.getElementById('notifClose');
+
+        let currentGuide = null;
+        let lastDismiss = 0;
+
+        function getSeenGuides() {
+            try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+            catch { return []; }
+        }
+
+        function markSeen(id) {
+            const seen = getSeenGuides();
+            if (!seen.includes(id)) { seen.push(id); localStorage.setItem(STORAGE_KEY, JSON.stringify(seen)); }
+        }
+
+        function getUnseenGuide() {
+            const seen = getSeenGuides();
+            const unseen = guides.filter(g => !seen.includes(g.id));
+            if (unseen.length === 0) return null;
+            return unseen[Math.floor(Math.random() * unseen.length)];
+        }
+
+        function showNotif() {
+            if (Date.now() - lastDismiss < DISMISS_COOLDOWN) return;
+            const guide = getUnseenGuide();
+            if (!guide) return;
+
+            currentGuide = guide;
+            titleEl.textContent = guide.title;
+            descEl.textContent = guide.desc;
+            popup.classList.add('show');
+
+            // Auto-hide after 12 sec
+            setTimeout(() => { popup.classList.remove('show'); }, 12000);
+        }
+
+        function hideNotif() {
+            popup.classList.remove('show');
+            lastDismiss = Date.now();
+        }
+
+        // Click → navigate to guide
+        popup.addEventListener('click', (e) => {
+            if (e.target === closeBtn || e.target.closest('.notif-close')) return;
+            if (!currentGuide) return;
+
+            markSeen(currentGuide.id);
+            hideNotif();
+
+            // Switch tab
+            const tabBtn = document.querySelectorAll('.tab-btn')[
+                currentGuide.tab === 'ai' ? 0 : currentGuide.tab === 'motion' ? 1 : 2
+            ];
+            tabBtn.click();
+
+            // Scroll to card after tab switch
+            setTimeout(() => {
+                if (currentGuide.cardIndex >= 0) {
+                    const panel = document.getElementById('tab-' + currentGuide.tab);
+                    const cards = panel.querySelectorAll('.video-card');
+                    if (cards[currentGuide.cardIndex]) {
+                        cards[currentGuide.cardIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                } else {
+                    document.getElementById('tab-' + currentGuide.tab).scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 400);
+        });
+
+        closeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (currentGuide) markSeen(currentGuide.id);
+            hideNotif();
+        });
+
+        // Также помечаем гайд просмотренным при клике на play
+        document.querySelectorAll('.video-cover').forEach((cover, i) => {
+            cover.addEventListener('click', () => {
+                if (guides[i]) markSeen(guides[i].id);
+            });
+        });
+
+        // Первое уведомление через 30 сек, далее каждые 90 сек
+        setTimeout(showNotif, 30000);
+        setInterval(showNotif, INTERVAL);
+    })();
+
     /* ── Cursor Glow Spotlight on Tool Links ── */
     document.querySelectorAll('.tool-link-row').forEach(row => {
         // Create glow element
