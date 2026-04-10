@@ -211,6 +211,147 @@
             gap: 12px;
         }
 
+        /* ─── HEADER SEARCH ─── */
+        .header-search {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-toggle {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(108,92,231,0.08);
+            color: var(--purple);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        .search-toggle svg { width: 15px; height: 15px; }
+        .search-toggle:hover { background: rgba(108,92,231,0.15); }
+
+        .search-input {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            opacity: 0;
+            padding: 0;
+            border: none;
+            border-radius: 20px;
+            background: var(--surface);
+            color: var(--text);
+            font-family: 'UpMax', sans-serif;
+            font-size: 0.78rem;
+            outline: none;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+        }
+
+        .header-search.open .search-input {
+            width: 220px;
+            opacity: 1;
+            padding: 8px 16px 8px 36px;
+            pointer-events: auto;
+            border: 1px solid rgba(108,92,231,0.2);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .header-search.open .search-toggle {
+            position: absolute;
+            left: 4px;
+            z-index: 2;
+            background: transparent;
+            width: 28px;
+            height: 28px;
+        }
+
+        body.light-mode .search-input {
+            background: #fff;
+            border: 1px solid rgba(0,0,0,0.08);
+        }
+
+        body:not(.light-mode) .search-input {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .search-results {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            width: 280px;
+            background: #fff;
+            border: 1px solid rgba(0,0,0,0.08);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+            padding: 0.5rem;
+            display: none;
+            z-index: 100;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        body:not(.light-mode) .search-results {
+            background: #1a1a2e;
+            border-color: rgba(255,255,255,0.1);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+        }
+
+        .search-results.visible { display: block; }
+
+        .search-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.6rem 0.75rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-decoration: none;
+            color: var(--text);
+        }
+        .search-item:hover { background: rgba(108,92,231,0.06); }
+        body:not(.light-mode) .search-item:hover { background: rgba(255,255,255,0.06); }
+
+        .search-item-icon {
+            width: 28px; height: 28px;
+            border-radius: 8px;
+            background: rgba(108,92,231,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .search-item-icon svg { width: 13px; height: 13px; color: #a78bfa; }
+
+        .search-item-text { font-size: 0.78rem; font-weight: 500; }
+        .search-item-sub { font-size: 0.65rem; color: var(--text2); }
+
+        .search-empty {
+            padding: 1rem;
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text2);
+        }
+
+        /* ─── GUIDE COUNTER ─── */
+        .guide-counter {
+            font-size: 0.6rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            color: #00d4aa;
+            background: rgba(0,212,170,0.08);
+            padding: 4px 10px;
+            border-radius: 20px;
+            border: 1px solid rgba(0,212,170,0.15);
+        }
+
         .header-tag {
             font-size: 0.65rem;
             font-weight: 500;
@@ -1533,6 +1674,14 @@
             <span class="header-title">ZimCore</span>
         </div>
         <div class="header-right">
+            <span class="guide-counter" id="guideCounter">0 / 9</span>
+            <div class="header-search" id="headerSearch">
+                <button class="search-toggle" onclick="toggleSearch()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                </button>
+                <input class="search-input" id="searchInput" type="text" placeholder="Поиск гайда..." oninput="filterGuides(this.value)">
+                <div class="search-results" id="searchResults"></div>
+            </div>
             <span class="header-tag">Guides</span>
             <div class="theme-switch" id="themeSwitch" onclick="document.body.classList.toggle('light-mode'); ">
                 <div class="theme-knob">
@@ -2332,6 +2481,107 @@
     </script>
 
     <script>
+    /* ── Search & Guide Counter ── */
+    const allGuides = [
+        { name: 'VEO3', sub: 'Google Flow', tab: 'ai', index: 0 },
+        { name: 'Midjourney + KlingAI', sub: 'Image & Video', tab: 'ai', index: 1 },
+        { name: 'Arcads', sub: 'AI Ads', tab: 'ai', index: 2 },
+        { name: 'Captions', sub: 'Subtitles', tab: 'ai', index: 3 },
+        { name: 'Elevenlabs', sub: 'AI Voice', tab: 'ai', index: 4 },
+        { name: 'Adobe Express', sub: 'Animate from Audio', tab: 'ai', index: 5 },
+        { name: 'After Effect', sub: 'Video Editing', tab: 'motion', index: 0 },
+        { name: 'Mister Horse', sub: 'Plugin for AE', tab: 'motion', index: 1 },
+        { name: 'ZimFrame', sub: 'Platform Guide', tab: 'zimframe', index: -1 },
+    ];
+
+    function toggleSearch() {
+        const wrap = document.getElementById('headerSearch');
+        const input = document.getElementById('searchInput');
+        wrap.classList.toggle('open');
+        if (wrap.classList.contains('open')) {
+            input.focus();
+        } else {
+            input.value = '';
+            document.getElementById('searchResults').classList.remove('visible');
+        }
+    }
+
+    // Close search on click outside
+    document.addEventListener('click', (e) => {
+        const wrap = document.getElementById('headerSearch');
+        if (!wrap.contains(e.target) && wrap.classList.contains('open')) {
+            wrap.classList.remove('open');
+            document.getElementById('searchInput').value = '';
+            document.getElementById('searchResults').classList.remove('visible');
+        }
+    });
+
+    function filterGuides(query) {
+        const results = document.getElementById('searchResults');
+        if (!query.trim()) { results.classList.remove('visible'); return; }
+
+        const q = query.toLowerCase();
+        const matches = allGuides.filter(g =>
+            g.name.toLowerCase().includes(q) || g.sub.toLowerCase().includes(q)
+        );
+
+        if (matches.length === 0) {
+            results.innerHTML = '<div class="search-empty">Ничего не найдено</div>';
+        } else {
+            results.innerHTML = matches.map(g => `
+                <div class="search-item" onclick="goToGuide('${g.tab}', ${g.index})">
+                    <div class="search-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></div>
+                    <div>
+                        <div class="search-item-text">${g.name}</div>
+                        <div class="search-item-sub">${g.sub}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        results.classList.add('visible');
+    }
+
+    function goToGuide(tab, cardIndex) {
+        // Close search
+        document.getElementById('headerSearch').classList.remove('open');
+        document.getElementById('searchInput').value = '';
+        document.getElementById('searchResults').classList.remove('visible');
+
+        // Switch tab
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabMap = { ai: 0, motion: 1, zimframe: 2 };
+        tabBtns[tabMap[tab]].classList.add('active');
+
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        const target = document.getElementById('tab-' + tab);
+        target.classList.add('active');
+        target.style.animation = 'tabFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards';
+
+        // Scroll to card
+        setTimeout(() => {
+            if (cardIndex >= 0) {
+                const cards = target.querySelectorAll('.video-card');
+                if (cards[cardIndex]) {
+                    cards[cardIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    cards[cardIndex].style.animation = 'none';
+                    cards[cardIndex].offsetHeight;
+                    cards[cardIndex].style.animation = 'cardReveal 0.6s cubic-bezier(0.16, 1.2, 0.3, 1) forwards';
+                }
+            } else {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }, 300);
+    }
+
+    // Update guide counter
+    (function() {
+        const seen = JSON.parse(localStorage.getItem('zimcore_seen_guides') || '{}');
+        const total = allGuides.length;
+        const viewed = Object.keys(seen).length;
+        document.getElementById('guideCounter').textContent = viewed + ' / ' + total;
+    })();
+
     /* ── Ripple Effect on Buttons ── */
     (function() {
         function createRipple(e) {
