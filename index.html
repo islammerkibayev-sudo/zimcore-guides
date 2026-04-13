@@ -613,6 +613,19 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        .rotating-line {
+            display: inline-block;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .rotating-line.fade-out {
+            opacity: 0;
+            transform: translateY(-8px);
+        }
+        .rotating-line.fade-in {
+            opacity: 0;
+            transform: translateY(8px);
+        }
+
         /* ─── HORIZONTAL GRID ─── */
         .cards-grid {
             display: grid;
@@ -1697,7 +1710,7 @@
     <main class="main">
         <div class="page-label">Knowledge Hub</div>
         <h1 class="page-title">Гайды по тулзам</h1>
-        <p class="page-desc">Пошаговые инструкции по работе с инструментами.<br>Смотри, повторяй, осваивай.</p>
+        <p class="page-desc">Пошаговые инструкции по работе с инструментами.<br><span id="rotatingLine" class="rotating-line">Смотри, повторяй, осваивай.</span></p>
 
         <!-- TAB BUTTONS -->
         <div class="tab-nav">
@@ -2581,6 +2594,34 @@
         const total = allGuides.length;
         const viewed = Object.keys(seen).length;
         document.getElementById('guideCounter').textContent = viewed + ' / ' + total;
+    })();
+
+    /* ── Rotating Tagline ── */
+    (function() {
+        const lines = [
+            'Смотри, повторяй, осваивай.',
+            'Изучай, повторяй, применяй.',
+            'Осваивай навыки и внедряй в работу.',
+            'Смотри. Повторяй. Осваивай.',
+            'Изучай, применяй, масштабируй результат.'
+        ];
+        let idx = 0;
+        const el = document.getElementById('rotatingLine');
+        if (!el) return;
+        setInterval(() => {
+            idx = (idx + 1) % lines.length;
+            el.classList.add('fade-out');
+            setTimeout(() => {
+                el.textContent = lines[idx];
+                el.classList.remove('fade-out');
+                el.classList.add('fade-in');
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        el.classList.remove('fade-in');
+                    });
+                });
+            }, 400);
+        }, 5000);
     })();
 
     /* ── Ripple Effect on Buttons ── */
