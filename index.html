@@ -2751,7 +2751,6 @@
                 <div class="tour-step-indicator">Шаг ${index + 1} из ${steps.length}</div>
                 <div class="tour-text">${step.text}</div>
                 <div class="tour-actions">
-                    <button class="tour-btn-skip" id="tourSkip">${isLast ? '' : 'Пропустить'}</button>
                     <div class="tour-dots">${dotsHTML}</div>
                     <button class="tour-btn-next" id="tourNext">${isLast ? 'Понятно!' : 'Далее'}</button>
                 </div>
@@ -2780,8 +2779,6 @@
             });
 
             document.getElementById('tourNext').onclick = nextStep;
-            const skipBtn = document.getElementById('tourSkip');
-            if (skipBtn) skipBtn.onclick = endTour;
         }
 
         function nextStep() {
