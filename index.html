@@ -2678,15 +2678,9 @@
                 position: 'bottom'
             },
             {
-                target: null,
+                target: '.notif-popup',
                 text: 'Я буду напоминать о непросмотренных гайдах 😉',
-                position: 'top-left',
-                customRect: () => ({
-                    top: window.innerHeight - 80,
-                    left: window.innerWidth - 200,
-                    width: 180,
-                    height: 60
-                })
+                position: 'top-left'
             }
         ];
 
@@ -2715,6 +2709,13 @@
 
         function showStep(index) {
             const step = steps[index];
+
+            // Show notif popup for last step
+            if (step.target === '.notif-popup') {
+                const notif = document.querySelector('.notif-popup');
+                if (notif) notif.classList.add('show');
+            }
+
             const rect = getRect(step);
             if (!rect) { nextStep(); return; }
 
@@ -2796,6 +2797,9 @@
             overlay.classList.add('hidden');
             tooltip.classList.remove('visible');
             spotlight.style.opacity = '0';
+            // Hide notif popup shown during tour
+            const notif = document.querySelector('.notif-popup');
+            if (notif) notif.classList.remove('show');
             setTimeout(() => {
                 overlay.remove();
                 spotlight.remove();
