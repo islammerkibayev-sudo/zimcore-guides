@@ -712,16 +712,22 @@
             transform: translateY(40px) scale(0.95);
             animation: cardReveal 0.7s cubic-bezier(0.16, 1.2, 0.3, 1) forwards;
             padding-bottom: 6px;
-            transition: filter 0.4s ease, transform 0.4s ease, opacity 0.4s ease;
+            transition: filter 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                        transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                        opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                        box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .cards-grid:hover .video-card {
-            filter: blur(3px) brightness(0.7);
-            opacity: 0.6;
+            filter: blur(2px) saturate(0.3);
+            opacity: 0.45;
+            transform: scale(0.98);
         }
         .cards-grid:hover .video-card:hover {
-            filter: blur(0) brightness(1);
+            filter: blur(0) saturate(1) brightness(1.02);
             opacity: 1;
-            transform: scale(1.02);
+            transform: scale(1.03);
+            box-shadow: 0 12px 40px rgba(108, 92, 231, 0.15);
+            z-index: 5;
         }
 
         .video-card:nth-child(1) { animation-delay: 1.55s; }
@@ -1319,16 +1325,22 @@
             opacity: 0;
             transform: translateY(30px);
             animation: cardReveal 0.6s cubic-bezier(0.16, 1.2, 0.3, 1) forwards;
-            transition: filter 0.4s ease, transform 0.4s ease, opacity 0.4s ease;
+            transition: filter 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                        transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                        opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                        box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .guide-steps:hover .guide-step {
-            filter: blur(3px) brightness(0.7);
-            opacity: 0.6;
+            filter: blur(2px) saturate(0.3);
+            opacity: 0.45;
+            transform: scale(0.98);
         }
         .guide-steps:hover .guide-step:hover {
-            filter: blur(0) brightness(1);
+            filter: blur(0) saturate(1) brightness(1.02);
             opacity: 1;
-            transform: scale(1.02);
+            transform: scale(1.03);
+            box-shadow: 0 12px 40px rgba(108, 92, 231, 0.15);
+            z-index: 5;
         }
 
         .guide-step:nth-child(1) { animation-delay: 0.1s; }
