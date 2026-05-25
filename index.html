@@ -2962,69 +2962,87 @@
     </script>
     </div><!-- /mainContent -->
 
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <!-- Google Identity Services -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script>
-    // Firebase Auth
+    // Google Auth
     (function() {
-        const firebaseConfig = {
-            apiKey: "AIzaSyB-vpwksLo4TxaFHZ9Gr0nKnr7x7KfsBUc",
-            authDomain: "zimcore-guides.firebaseapp.com",
-            projectId: "zimcore-guides",
-            storageBucket: "zimcore-guides.firebasestorage.app",
-            messagingSenderId: "322511203444",
-            appId: "1:322511203444:web:e8bb6cc4b04d8a668c7521"
-        };
-
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const provider = new firebase.auth.GoogleAuthProvider();
+        const CLIENT_ID = '322511203444-olfol30eroe4lrp3c34rj6h91hh5tdmn.apps.googleusercontent.com';
+        const AUTH_KEY = 'zimcore_auth_user';
 
         const authScreen = document.getElementById('authScreen');
         const authUser = document.getElementById('authUser');
         const authAvatar = document.getElementById('authAvatar');
         const authName = document.getElementById('authName');
+        const mainContent = document.getElementById('mainContent');
         const introOverlay = document.getElementById('introOverlay');
 
-        // Hide intro & main content until auth
-        document.getElementById('mainContent').style.display = 'none';
-        if (introOverlay) introOverlay.style.display = 'none';
+        function showApp(user) {
+            authScreen.classList.add('hidden');
+            authUser.style.display = 'flex';
+            authAvatar.src = user.picture || '';
+            authName.textContent = user.name || user.email;
+            mainContent.style.display = '';
+            if (introOverlay) introOverlay.style.display = '';
+        }
 
-        // Listen for auth state
-        auth.onAuthStateChanged(user => {
-            if (user) {
-                // Logged in
-                authScreen.classList.add('hidden');
-                authUser.style.display = 'flex';
-                authAvatar.src = user.photoURL || '';
-                authName.textContent = user.displayName || user.email;
+        function hideApp() {
+            authScreen.classList.remove('hidden');
+            authUser.style.display = 'none';
+            mainContent.style.display = 'none';
+            if (introOverlay) introOverlay.style.display = 'none';
+        }
 
-                // Show content & intro
-                document.getElementById('mainContent').style.display = '';
-                if (introOverlay) {
-                    introOverlay.style.display = '';
+        // Parse JWT token from Google
+        function parseJwt(token) {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            return JSON.parse(decodeURIComponent(atob(base64).split('').map(c =>
+                '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+            ).join('')));
+        }
+
+        // Handle Google sign-in response
+        window.handleGoogleSignIn = function(response) {
+            const user = parseJwt(response.credential);
+            localStorage.setItem(AUTH_KEY, JSON.stringify(user));
+            showApp(user);
+        };
+
+        // Check saved session
+        const saved = localStorage.getItem(AUTH_KEY);
+        if (saved) {
+            try {
+                const user = JSON.parse(saved);
+                // Check if token expired (exp is in seconds)
+                if (user.exp && user.exp * 1000 > Date.now()) {
+                    showApp(user);
+                } else {
+                    localStorage.removeItem(AUTH_KEY);
+                    hideApp();
                 }
-            } else {
-                // Not logged in
-                authScreen.classList.remove('hidden');
-                authUser.style.display = 'none';
-                document.getElementById('mainContent').style.display = 'none';
-                if (introOverlay) introOverlay.style.display = 'none';
+            } catch(e) {
+                localStorage.removeItem(AUTH_KEY);
+                hideApp();
             }
-        });
+        } else {
+            hideApp();
+        }
 
-        // Google Sign In
+        // Init Google Sign-In on button click
         document.getElementById('googleSignIn').addEventListener('click', () => {
-            auth.signInWithPopup(provider).catch(err => {
-                console.error('Auth error:', err);
-                alert('Ошибка входа: ' + err.message);
+            google.accounts.id.initialize({
+                client_id: CLIENT_ID,
+                callback: handleGoogleSignIn
             });
+            google.accounts.id.prompt();
         });
 
         // Logout
         document.getElementById('authLogout').addEventListener('click', () => {
-            auth.signOut();
+            localStorage.removeItem(AUTH_KEY);
+            google.accounts.id.disableAutoSelect();
+            hideApp();
         });
     })();
     </script>
