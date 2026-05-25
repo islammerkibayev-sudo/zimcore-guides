@@ -2756,11 +2756,30 @@
         }
     });
 
+    const easterEggWords = ['хуй','хуя','хуе','блять','блядь','бля','пизд','ебат','ебан','еба','нахуй','сука','суки','дебил','мудак','пидор','залупа','жопа','говно'];
+    const easterEggReplies = [
+        'Эй, полегче! Тут культурное место 😤',
+        'Ты так не говори да 🙄',
+        'Маты в поиске? Серьёзно? 😂',
+        'Ислам бы не одобрил... 👀',
+        'Здесь гайды ищут, а не ругаются 😅',
+        'Поиск работает, но не с такими запросами 🚫',
+        'Ай-ай-ай, нехорошо! 🤨'
+    ];
+
     function filterGuides(query) {
         const results = document.getElementById('searchResults');
         if (!query.trim()) { results.classList.remove('visible'); return; }
 
         const q = query.toLowerCase();
+
+        // Easter egg: mat filter
+        if (easterEggWords.some(w => q.includes(w))) {
+            const msg = easterEggReplies[Math.floor(Math.random() * easterEggReplies.length)];
+            results.innerHTML = '<div class="search-empty" style="font-size:1.1rem;">' + msg + '</div>';
+            results.classList.add('visible');
+            return;
+        }
         const matches = allGuides.filter(g =>
             g.name.toLowerCase().includes(q) || g.sub.toLowerCase().includes(q)
         );
