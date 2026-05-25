@@ -1749,27 +1749,23 @@
         }
         .google-btn svg { width: 20px; height: 20px; }
         .auth-user {
-            position: fixed;
-            top: 16px;
-            right: 16px;
-            z-index: 1000;
+            position: relative;
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 6px 14px 6px 6px;
+            gap: 8px;
+            padding: 4px 12px 4px 4px;
             border-radius: 50px;
             background: rgba(255,255,255,0.06);
             border: 1px solid rgba(255,255,255,0.08);
-            backdrop-filter: blur(12px);
             cursor: pointer;
             transition: all 0.3s ease;
         }
         .auth-user:hover { background: rgba(255,255,255,0.1); }
         body.light-mode .auth-user {
-            background: rgba(255,255,255,0.8);
+            background: rgba(0,0,0,0.04);
             border: 1px solid rgba(0,0,0,0.06);
-            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
         }
+        body.light-mode .auth-user:hover { background: rgba(0,0,0,0.07); }
         .auth-user img {
             width: 32px;
             height: 32px;
@@ -1875,27 +1871,6 @@
         </div>
     </div>
 
-    <!-- USER BADGE (shown after login) -->
-    <div class="auth-user" id="authUser" style="display:none;" onclick="document.getElementById('authDropdown').classList.toggle('open')">
-        <img id="authAvatar" src="" alt="" referrerpolicy="no-referrer">
-        <span class="auth-user-name" id="authName"></span>
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="opacity:0.4;"><path d="M3 5l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        <!-- Dropdown -->
-        <div class="auth-dropdown" id="authDropdown">
-            <div class="auth-dropdown-header">
-                <img id="authAvatarLg" src="" alt="" referrerpolicy="no-referrer">
-                <div>
-                    <div class="auth-dropdown-name" id="authNameFull"></div>
-                    <div class="auth-dropdown-email" id="authEmail"></div>
-                </div>
-            </div>
-            <div class="auth-dropdown-divider"></div>
-            <button class="auth-dropdown-logout" id="authLogout">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-                Выйти из аккаунта
-            </button>
-        </div>
-    </div>
 
     <!-- INTRO SPLASH -->
     <div class="intro-overlay" id="introOverlay">
@@ -1929,6 +1904,25 @@
                 <div class="search-results" id="searchResults"></div>
             </div>
             <span class="header-tag">Guides</span>
+            <div class="auth-user" id="authUser" style="display:none;" onclick="event.stopPropagation(); document.getElementById('authDropdown').classList.toggle('open')">
+                <img id="authAvatar" src="" alt="" referrerpolicy="no-referrer">
+                <span class="auth-user-name" id="authName"></span>
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="opacity:0.4;"><path d="M3 5l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                <div class="auth-dropdown" id="authDropdown">
+                    <div class="auth-dropdown-header">
+                        <img id="authAvatarLg" src="" alt="" referrerpolicy="no-referrer">
+                        <div>
+                            <div class="auth-dropdown-name" id="authNameFull"></div>
+                            <div class="auth-dropdown-email" id="authEmail"></div>
+                        </div>
+                    </div>
+                    <div class="auth-dropdown-divider"></div>
+                    <button class="auth-dropdown-logout" id="authLogout">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                        Выйти из аккаунта
+                    </button>
+                </div>
+            </div>
             <div class="theme-switch" id="themeSwitch" onclick="document.body.classList.toggle('light-mode'); ">
                 <div class="theme-knob">
                     <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
