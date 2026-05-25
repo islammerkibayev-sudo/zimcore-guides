@@ -1858,6 +1858,157 @@
             background: rgba(255,107,107,0.06);
             color: #ff6b6b;
         }
+
+        /* ─── ONLINE USERS ─── */
+        .online-bar {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 900;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px 6px 8px;
+            border-radius: 50px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .online-bar:hover { background: rgba(255,255,255,0.1); }
+        body.light-mode .online-bar {
+            background: rgba(255,255,255,0.85);
+            border: 1px solid rgba(0,0,0,0.06);
+            box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+        }
+        body.light-mode .online-bar:hover { background: rgba(255,255,255,0.95); }
+        .online-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #22c55e;
+            animation: onlinePulse 2s ease-in-out infinite;
+        }
+        @keyframes onlinePulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.4); }
+            50% { box-shadow: 0 0 0 4px rgba(34,197,94,0); }
+        }
+        .online-count {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.6);
+            font-weight: 400;
+        }
+        body.light-mode .online-count { color: #666; }
+        .online-avatars {
+            display: flex;
+            margin-left: 2px;
+        }
+        .online-avatars img {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #0e0e14;
+            margin-left: -8px;
+            transition: transform 0.2s ease;
+        }
+        .online-avatars img:first-child { margin-left: 0; }
+        .online-avatars img:hover { transform: scale(1.2); z-index: 2; }
+        body.light-mode .online-avatars img { border-color: #fff; }
+
+        /* Online Panel */
+        .online-panel {
+            position: fixed;
+            bottom: 60px;
+            left: 20px;
+            z-index: 901;
+            min-width: 260px;
+            max-width: 320px;
+            padding: 16px;
+            border-radius: 16px;
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(8px) scale(0.96);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .online-panel.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+        body.light-mode .online-panel {
+            background: #fff;
+            border: 1px solid rgba(0,0,0,0.06);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        }
+        .online-panel-title {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: rgba(255,255,255,0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+        body.light-mode .online-panel-title { color: #aaa; }
+        .online-user-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px;
+            border-radius: 10px;
+            transition: background 0.2s ease;
+        }
+        .online-user-row:hover { background: rgba(255,255,255,0.04); }
+        body.light-mode .online-user-row:hover { background: rgba(0,0,0,0.03); }
+        .online-user-row img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .online-user-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .online-user-info .name {
+            font-size: 0.85rem;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        body.light-mode .online-user-info .name { color: #1a1a2e; }
+        .online-user-info .email {
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.35);
+        }
+        body.light-mode .online-user-info .email { color: #999; }
+        .online-kick-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            border: none;
+            background: transparent;
+            color: rgba(255,255,255,0.2);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+        .online-kick-btn:hover {
+            background: rgba(255,107,107,0.15);
+            color: #ff6b6b;
+        }
+        body.light-mode .online-kick-btn { color: #ccc; }
+        body.light-mode .online-kick-btn:hover {
+            background: rgba(255,107,107,0.08);
+            color: #ff6b6b;
+        }
     </style>
 </head>
 <body class="light-mode">
@@ -3056,7 +3207,22 @@
         setTimeout(() => showStep(0), 3000);
     })();
     </script>
+    <!-- ONLINE USERS BAR -->
+    <div class="online-bar" id="onlineBar" style="display:none;" onclick="document.getElementById('onlinePanel').classList.toggle('open')">
+        <span class="online-dot"></span>
+        <div class="online-avatars" id="onlineAvatars"></div>
+        <span class="online-count" id="onlineCount">0 online</span>
+    </div>
+    <div class="online-panel" id="onlinePanel">
+        <div class="online-panel-title">Сейчас онлайн</div>
+        <div id="onlineList"></div>
+    </div>
+
     </div><!-- /mainContent -->
+
+    <!-- Firebase Realtime DB for presence -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 
     <!-- Google Identity Services -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -3087,6 +3253,8 @@
             if (emailEl) emailEl.textContent = user.email || '';
             mainContent.style.display = '';
             if (introOverlay) introOverlay.style.display = '';
+            // Go online
+            if (window.goOnlinePresence) window.goOnlinePresence(user);
         }
 
         function hideApp() {
@@ -3094,6 +3262,8 @@
             authUser.style.display = 'none';
             mainContent.style.display = 'none';
             if (introOverlay) introOverlay.style.display = 'none';
+            // Go offline
+            if (window.goOfflinePresence) window.goOfflinePresence();
         }
 
         // Parse JWT token from Google
@@ -3193,6 +3363,122 @@
                 dd.classList.remove('open');
             }
         });
+    })();
+    </script>
+
+    <!-- Online Presence System -->
+    <script>
+    (function() {
+        const ADMIN_EMAIL = 'islam.merkibayev@zimran.io';
+        const DB_URL = 'https://zimcore-guides-default-rtdb.firebaseio.com';
+        const AUTH_KEY = 'zimcore_auth_user';
+
+        // Init Firebase for DB only
+        if (!firebase.apps.length) {
+            firebase.initializeApp({
+                databaseURL: DB_URL,
+                apiKey: "AIzaSyB-vpwksLo4TxaFHZ9Gr0nKnr7x7KfsBUc",
+                projectId: "zimcore-guides"
+            });
+        }
+        const db = firebase.database();
+        const onlineRef = db.ref('online');
+        let myRef = null;
+        let currentUserEmail = null;
+
+        // Generate unique session ID
+        function sessionId() {
+            return 'u_' + Math.random().toString(36).substr(2, 9);
+        }
+        const sid = sessionId();
+
+        // Go online
+        window.goOnlinePresence = function(user) {
+            currentUserEmail = user.email;
+            myRef = db.ref('online/' + sid);
+            myRef.set({
+                name: user.name || '',
+                email: user.email || '',
+                picture: user.picture || '',
+                ts: firebase.database.ServerValue.TIMESTAMP
+            });
+            myRef.onDisconnect().remove();
+
+            document.getElementById('onlineBar').style.display = 'flex';
+        };
+
+        // Go offline
+        window.goOfflinePresence = function() {
+            if (myRef) myRef.remove();
+            document.getElementById('onlineBar').style.display = 'none';
+            document.getElementById('onlinePanel').classList.remove('open');
+        };
+
+        // Listen for online users
+        onlineRef.on('value', snap => {
+            const users = snap.val() || {};
+            const list = Object.entries(users);
+            const count = list.length;
+            const isAdmin = currentUserEmail === ADMIN_EMAIL;
+
+            // Update count
+            document.getElementById('onlineCount').textContent = count + ' online';
+
+            // Update avatars
+            const avatarsEl = document.getElementById('onlineAvatars');
+            avatarsEl.innerHTML = list.slice(0, 5).map(([, u]) =>
+                '<img src="' + (u.picture || '') + '" alt="" referrerpolicy="no-referrer" title="' + (u.name || '') + '">'
+            ).join('');
+
+            // Update panel list
+            const listEl = document.getElementById('onlineList');
+            listEl.innerHTML = list.map(([key, u]) => {
+                const kickBtn = isAdmin && u.email !== ADMIN_EMAIL
+                    ? '<button class="online-kick-btn" onclick="event.stopPropagation(); kickUser(\'' + key + '\', \'' + (u.name || '') + '\')" title="Выгнать"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>'
+                    : '';
+                const youBadge = u.email === currentUserEmail ? ' <span style="font-size:0.65rem;color:#7c5cfc;">(ты)</span>' : '';
+                return '<div class="online-user-row">' +
+                    '<img src="' + (u.picture || '') + '" alt="" referrerpolicy="no-referrer">' +
+                    '<div class="online-user-info">' +
+                        '<div class="name">' + (u.name || 'Аноним') + youBadge + '</div>' +
+                        '<div class="email">' + (u.email || '') + '</div>' +
+                    '</div>' +
+                    kickBtn +
+                '</div>';
+            }).join('');
+
+            // Show bar
+            if (count > 0 && currentUserEmail) {
+                document.getElementById('onlineBar').style.display = 'flex';
+            }
+        });
+
+        // Kick user (admin only)
+        window.kickUser = function(key, name) {
+            if (confirm('Выгнать ' + name + '?')) {
+                db.ref('online/' + key).remove();
+            }
+        };
+
+        // Close panel on click outside
+        document.addEventListener('click', (e) => {
+            const panel = document.getElementById('onlinePanel');
+            const bar = document.getElementById('onlineBar');
+            if (panel && !panel.contains(e.target) && !bar.contains(e.target)) {
+                panel.classList.remove('open');
+            }
+        });
+
+        // Auto-connect if already logged in
+        const saved = localStorage.getItem(AUTH_KEY);
+        if (saved) {
+            try {
+                const user = JSON.parse(saved);
+                if (user.exp && user.exp * 1000 > Date.now() && user.email && user.email.endsWith('@zimran.io')) {
+                    goOnlinePresence(user);
+                }
+            } catch(e) {}
+        }
     })();
     </script>
 
