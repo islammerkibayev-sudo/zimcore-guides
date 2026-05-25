@@ -1782,15 +1782,86 @@
             font-weight: 400;
         }
         body.light-mode .auth-user-name { color: #555; }
-        .auth-logout {
-            font-size: 0.7rem;
-            color: rgba(255,255,255,0.3);
-            cursor: pointer;
-            margin-left: 4px;
+        .auth-dropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            min-width: 280px;
+            padding: 16px;
+            border-radius: 16px;
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px) scale(0.96);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1001;
         }
-        .auth-logout:hover { color: #ff6b6b; }
-        body.light-mode .auth-logout { color: #aaa; }
-        body.light-mode .auth-logout:hover { color: #ff6b6b; }
+        .auth-dropdown.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+        body.light-mode .auth-dropdown {
+            background: #fff;
+            border: 1px solid rgba(0,0,0,0.06);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        }
+        .auth-dropdown-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .auth-dropdown-header img {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .auth-dropdown-name {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #fff;
+        }
+        body.light-mode .auth-dropdown-name { color: #1a1a2e; }
+        .auth-dropdown-email {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.4);
+            margin-top: 2px;
+        }
+        body.light-mode .auth-dropdown-email { color: #888; }
+        .auth-dropdown-divider {
+            height: 1px;
+            background: rgba(255,255,255,0.06);
+            margin: 12px 0;
+        }
+        body.light-mode .auth-dropdown-divider { background: rgba(0,0,0,0.06); }
+        .auth-dropdown-logout {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            padding: 10px 12px;
+            border: none;
+            border-radius: 10px;
+            background: transparent;
+            color: rgba(255,255,255,0.5);
+            font-family: 'UpMax', sans-serif;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .auth-dropdown-logout:hover {
+            background: rgba(255,107,107,0.1);
+            color: #ff6b6b;
+        }
+        body.light-mode .auth-dropdown-logout { color: #888; }
+        body.light-mode .auth-dropdown-logout:hover {
+            background: rgba(255,107,107,0.06);
+            color: #ff6b6b;
+        }
     </style>
 </head>
 <body class="light-mode">
@@ -1808,10 +1879,25 @@
     </div>
 
     <!-- USER BADGE (shown after login) -->
-    <div class="auth-user" id="authUser" style="display:none;">
-        <img id="authAvatar" src="" alt="">
+    <div class="auth-user" id="authUser" style="display:none;" onclick="document.getElementById('authDropdown').classList.toggle('open')">
+        <img id="authAvatar" src="" alt="" referrerpolicy="no-referrer">
         <span class="auth-user-name" id="authName"></span>
-        <span class="auth-logout" id="authLogout">выйти</span>
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="opacity:0.4;"><path d="M3 5l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <!-- Dropdown -->
+        <div class="auth-dropdown" id="authDropdown">
+            <div class="auth-dropdown-header">
+                <img id="authAvatarLg" src="" alt="" referrerpolicy="no-referrer">
+                <div>
+                    <div class="auth-dropdown-name" id="authNameFull"></div>
+                    <div class="auth-dropdown-email" id="authEmail"></div>
+                </div>
+            </div>
+            <div class="auth-dropdown-divider"></div>
+            <button class="auth-dropdown-logout" id="authLogout">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                Выйти из аккаунта
+            </button>
+        </div>
     </div>
 
     <!-- INTRO SPLASH -->
@@ -2982,6 +3068,13 @@
             authUser.style.display = 'flex';
             authAvatar.src = user.picture || '';
             authName.textContent = user.name || user.email;
+            // Dropdown data
+            const avatarLg = document.getElementById('authAvatarLg');
+            const nameFull = document.getElementById('authNameFull');
+            const emailEl = document.getElementById('authEmail');
+            if (avatarLg) avatarLg.src = user.picture || '';
+            if (nameFull) nameFull.textContent = user.name || '';
+            if (emailEl) emailEl.textContent = user.email || '';
             mainContent.style.display = '';
             if (introOverlay) introOverlay.style.display = '';
         }
@@ -3058,10 +3151,21 @@
         });
 
         // Logout
-        document.getElementById('authLogout').addEventListener('click', () => {
+        document.getElementById('authLogout').addEventListener('click', (e) => {
+            e.stopPropagation();
             localStorage.removeItem(AUTH_KEY);
             google.accounts.id.disableAutoSelect();
+            document.getElementById('authDropdown').classList.remove('open');
             hideApp();
+        });
+
+        // Close dropdown on click outside
+        document.addEventListener('click', (e) => {
+            const dd = document.getElementById('authDropdown');
+            const au = document.getElementById('authUser');
+            if (dd && !au.contains(e.target)) {
+                dd.classList.remove('open');
+            }
         });
     })();
     </script>
