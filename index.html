@@ -2011,37 +2011,134 @@
         }
 
         /* ─── IDEAS TAB ─── */
-        .ideas-form {
-            display: flex;
-            gap: 10px;
+        .ideas-form-card {
+            padding: 20px;
+            border-radius: 16px;
+            background: rgba(255,255,255,0.7);
+            border: 1px solid rgba(0,0,0,0.05);
             margin-bottom: 2rem;
         }
-        .ideas-input {
-            flex: 1;
-            padding: 14px 18px;
-            border-radius: 14px;
+        body:not(.light-mode) .ideas-form-card {
+            background: rgba(255,255,255,0.04);
+            border-color: rgba(255,255,255,0.06);
+        }
+        .ideas-form-card .form-row {
+            margin-bottom: 12px;
+        }
+        .ideas-form-card label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #888;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        body:not(.light-mode) .ideas-form-card label { color: rgba(255,255,255,0.35); }
+        .ideas-form-card input,
+        .ideas-form-card textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 10px;
             border: 1px solid rgba(0,0,0,0.08);
-            background: rgba(255,255,255,0.7);
+            background: rgba(255,255,255,0.8);
             font-family: 'UpMax', sans-serif;
             font-size: 0.9rem;
             color: #1a1a2e;
             outline: none;
             transition: all 0.3s ease;
+            box-sizing: border-box;
         }
-        .ideas-input:focus {
+        .ideas-form-card textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        .ideas-form-card input:focus,
+        .ideas-form-card textarea:focus {
             border-color: rgba(124,92,252,0.4);
-            box-shadow: 0 0 0 3px rgba(124,92,252,0.1);
+            box-shadow: 0 0 0 3px rgba(124,92,252,0.08);
         }
-        .ideas-input::placeholder { color: #aaa; }
-        body:not(.light-mode) .ideas-input {
+        body:not(.light-mode) .ideas-form-card input,
+        body:not(.light-mode) .ideas-form-card textarea {
             background: rgba(255,255,255,0.06);
             border-color: rgba(255,255,255,0.08);
             color: #fff;
         }
-        body:not(.light-mode) .ideas-input::placeholder { color: rgba(255,255,255,0.3); }
+        .ideas-form-card input::placeholder,
+        .ideas-form-card textarea::placeholder { color: #aaa; }
+        body:not(.light-mode) .ideas-form-card input::placeholder,
+        body:not(.light-mode) .ideas-form-card textarea::placeholder { color: rgba(255,255,255,0.25); }
+        .ideas-img-upload {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .ideas-img-btn {
+            padding: 10px 18px;
+            border-radius: 10px;
+            border: 1px dashed rgba(0,0,0,0.15);
+            background: transparent;
+            color: #888;
+            font-family: 'UpMax', sans-serif;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .ideas-img-btn:hover {
+            border-color: #7c5cfc;
+            color: #7c5cfc;
+        }
+        body:not(.light-mode) .ideas-img-btn {
+            border-color: rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.4);
+        }
+        .ideas-img-preview {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+        .ideas-img-preview .img-thumb {
+            position: relative;
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .ideas-img-preview .img-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .ideas-img-preview .img-thumb .img-remove {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            line-height: 1;
+        }
+        .ideas-form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 16px;
+        }
         .ideas-submit {
-            padding: 14px 24px;
-            border-radius: 14px;
+            padding: 12px 28px;
+            border-radius: 12px;
             border: none;
             background: #7c5cfc;
             color: #fff;
@@ -2050,23 +2147,33 @@
             font-weight: 500;
             cursor: pointer;
             transition: all 0.3s ease;
-            white-space: nowrap;
         }
         .ideas-submit:hover {
             background: #6a4de0;
             transform: translateY(-1px);
             box-shadow: 0 4px 15px rgba(124,92,252,0.3);
         }
-        .ideas-submit:active { transform: scale(0.97); }
+        .ideas-cancel {
+            padding: 12px 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(0,0,0,0.08);
+            background: transparent;
+            color: #888;
+            font-family: 'UpMax', sans-serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: none;
+        }
+        .ideas-cancel:hover { border-color: rgba(0,0,0,0.2); color: #555; }
+        body:not(.light-mode) .ideas-cancel { border-color: rgba(255,255,255,0.1); color: rgba(255,255,255,0.4); }
         .ideas-list {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
         }
         .idea-card {
-            display: flex;
-            gap: 12px;
-            padding: 16px;
+            padding: 18px;
             border-radius: 16px;
             background: rgba(255,255,255,0.7);
             border: 1px solid rgba(0,0,0,0.05);
@@ -2076,19 +2183,18 @@
             background: rgba(255,255,255,0.04);
             border-color: rgba(255,255,255,0.06);
         }
-        .idea-card img {
-            width: 36px;
-            height: 36px;
+        .idea-top {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .idea-top img.idea-avatar {
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             object-fit: cover;
             flex-shrink: 0;
-        }
-        .idea-content { flex: 1; min-width: 0; }
-        .idea-header {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 6px;
         }
         .idea-author {
             font-size: 0.8rem;
@@ -2101,13 +2207,12 @@
             color: #aaa;
         }
         body:not(.light-mode) .idea-time { color: rgba(255,255,255,0.3); }
-        .idea-text {
-            font-size: 0.9rem;
-            color: #333;
-            line-height: 1.5;
+        .idea-actions {
+            margin-left: auto;
+            display: flex;
+            gap: 4px;
         }
-        body:not(.light-mode) .idea-text { color: rgba(255,255,255,0.7); }
-        .idea-delete {
+        .idea-action-btn {
             width: 28px;
             height: 28px;
             border-radius: 8px;
@@ -2118,14 +2223,44 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0;
-            align-self: flex-start;
             transition: all 0.2s ease;
         }
-        .idea-delete:hover {
+        .idea-action-btn:hover {
+            background: rgba(124,92,252,0.1);
+            color: #7c5cfc;
+        }
+        .idea-action-btn.delete:hover {
             background: rgba(255,107,107,0.1);
             color: #ff6b6b;
         }
+        .idea-title {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+        body:not(.light-mode) .idea-title { color: #fff; }
+        .idea-text {
+            font-size: 0.85rem;
+            color: #555;
+            line-height: 1.6;
+        }
+        body:not(.light-mode) .idea-text { color: rgba(255,255,255,0.6); }
+        .idea-images {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+        .idea-images img {
+            max-width: 180px;
+            max-height: 140px;
+            border-radius: 10px;
+            object-fit: cover;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .idea-images img:hover { transform: scale(1.03); }
         .ideas-empty {
             text-align: center;
             padding: 3rem 1rem;
@@ -2576,13 +2711,35 @@
 
             <!-- ═══ IDEAS ═══ -->
             <div class="tab-panel" id="tab-ideas">
-                <div style="margin-bottom: 2rem;">
+                <div style="margin-bottom: 1.5rem;">
                     <h2 style="font-size: 1.3rem; font-weight: 500; margin-bottom: 0.4rem;">💡 Ideas Board</h2>
                     <p style="font-size: 0.85rem; color: var(--text2); line-height: 1.5;">Предлагай идеи для новых гайдов, делись мыслями по улучшению рабочих процессов или просто кидай интересные тулзы. Все предложения видит вся команда.</p>
                 </div>
-                <div class="ideas-form">
-                    <input class="ideas-input" id="ideaInput" type="text" placeholder="Напиши идею..." maxlength="500">
-                    <button class="ideas-submit" onclick="submitIdea()">Отправить</button>
+                <div class="ideas-form-card" id="ideaFormCard">
+                    <div class="form-row">
+                        <label>Название идеи</label>
+                        <input id="ideaTitle" type="text" placeholder="Например: Гайд по Runway ML" maxlength="200">
+                    </div>
+                    <div class="form-row">
+                        <label>Описание</label>
+                        <textarea id="ideaDesc" placeholder="Опиши подробнее — зачем это нужно, что покрыть..." maxlength="2000"></textarea>
+                    </div>
+                    <div class="form-row">
+                        <label>Референсы</label>
+                        <div class="ideas-img-upload">
+                            <button class="ideas-img-btn" onclick="document.getElementById('ideaFileInput').click()">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                                Добавить картинку
+                            </button>
+                            <input type="file" id="ideaFileInput" accept="image/*" multiple style="display:none" onchange="handleIdeaImages(this)">
+                        </div>
+                        <div class="ideas-img-preview" id="ideaImgPreview"></div>
+                    </div>
+                    <input type="hidden" id="ideaEditKey" value="">
+                    <div class="ideas-form-actions">
+                        <button class="ideas-cancel" id="ideaCancelBtn" onclick="cancelIdeaEdit()">Отмена</button>
+                        <button class="ideas-submit" onclick="submitIdea()">Отправить</button>
+                    </div>
                 </div>
                 <div class="ideas-list" id="ideasList">
                     <div class="ideas-empty">
@@ -3636,16 +3793,17 @@
     <!-- Ideas System -->
     <script>
     (function() {
-        const ADMIN_EMAIL = 'islam.merkibayev@zimran.io';
         const AUTH_KEY = 'zimcore_auth_user';
         const db = firebase.database();
         const ideasRef = db.ref('ideas');
+        let ideaImages = [];
 
         function getCurrentUser() {
-            try {
-                return JSON.parse(localStorage.getItem(AUTH_KEY));
-            } catch(e) { return null; }
+            try { return JSON.parse(localStorage.getItem(AUTH_KEY)); }
+            catch(e) { return null; }
         }
+
+        function esc(s) { return (s || '').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
 
         function timeAgo(ts) {
             const diff = Date.now() - ts;
@@ -3658,30 +3816,112 @@
             return days + ' дн назад';
         }
 
-        // Submit idea
+        // Image handling
+        window.handleIdeaImages = function(input) {
+            const files = Array.from(input.files);
+            files.forEach(file => {
+                if (file.size > 2 * 1024 * 1024) {
+                    alert('Картинка слишком большая (макс 2MB): ' + file.name);
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    ideaImages.push(e.target.result);
+                    renderImagePreviews();
+                };
+                reader.readAsDataURL(file);
+            });
+            input.value = '';
+        };
+
+        function renderImagePreviews() {
+            const el = document.getElementById('ideaImgPreview');
+            el.innerHTML = ideaImages.map((src, i) =>
+                '<div class="img-thumb">' +
+                    '<img src="' + src + '">' +
+                    '<button class="img-remove" onclick="removeIdeaImage(' + i + ')">×</button>' +
+                '</div>'
+            ).join('');
+        }
+
+        window.removeIdeaImage = function(i) {
+            ideaImages.splice(i, 1);
+            renderImagePreviews();
+        };
+
+        // Submit / Update
         window.submitIdea = function() {
-            const input = document.getElementById('ideaInput');
-            const text = input.value.trim();
-            if (!text) return;
+            const title = document.getElementById('ideaTitle').value.trim();
+            const desc = document.getElementById('ideaDesc').value.trim();
+            const editKey = document.getElementById('ideaEditKey').value;
+
+            if (!title) { alert('Напиши название идеи'); return; }
 
             const user = getCurrentUser();
             if (!user) { alert('Сначала войди в аккаунт'); return; }
 
-            ideasRef.push({
-                text: text,
+            const data = {
+                title: title,
+                text: desc,
+                images: ideaImages.length > 0 ? ideaImages : null,
                 name: user.name || '',
                 email: user.email || '',
                 picture: user.picture || '',
                 ts: firebase.database.ServerValue.TIMESTAMP
-            });
+            };
 
-            input.value = '';
+            if (editKey) {
+                // Update — keep original author
+                ideasRef.child(editKey).update({
+                    title: title,
+                    text: desc,
+                    images: ideaImages.length > 0 ? ideaImages : null,
+                    editedAt: firebase.database.ServerValue.TIMESTAMP
+                });
+            } else {
+                ideasRef.push(data);
+            }
+
+            // Reset form
+            document.getElementById('ideaTitle').value = '';
+            document.getElementById('ideaDesc').value = '';
+            document.getElementById('ideaEditKey').value = '';
+            document.getElementById('ideaCancelBtn').style.display = 'none';
+            ideaImages = [];
+            renderImagePreviews();
         };
 
-        // Submit on Enter
-        document.getElementById('ideaInput').addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') submitIdea();
-        });
+        // Edit idea (only author)
+        window.editIdea = function(key) {
+            ideasRef.child(key).once('value', snap => {
+                const idea = snap.val();
+                if (!idea) return;
+                document.getElementById('ideaTitle').value = idea.title || '';
+                document.getElementById('ideaDesc').value = idea.text || '';
+                document.getElementById('ideaEditKey').value = key;
+                document.getElementById('ideaCancelBtn').style.display = 'inline-block';
+                ideaImages = idea.images || [];
+                renderImagePreviews();
+                document.getElementById('ideaFormCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+        };
+
+        // Cancel edit
+        window.cancelIdeaEdit = function() {
+            document.getElementById('ideaTitle').value = '';
+            document.getElementById('ideaDesc').value = '';
+            document.getElementById('ideaEditKey').value = '';
+            document.getElementById('ideaCancelBtn').style.display = 'none';
+            ideaImages = [];
+            renderImagePreviews();
+        };
+
+        // Delete idea (only author)
+        window.deleteIdea = function(key) {
+            if (confirm('Удалить эту идею?')) {
+                ideasRef.child(key).remove();
+            }
+        };
 
         // Listen for ideas
         ideasRef.orderByChild('ts').on('value', snap => {
@@ -3694,34 +3934,40 @@
             }
 
             const user = getCurrentUser();
-            const isAdmin = user && user.email === ADMIN_EMAIL;
             const ideas = Object.entries(data).sort((a, b) => (b[1].ts || 0) - (a[1].ts || 0));
 
             listEl.innerHTML = ideas.map(([key, idea]) => {
-                const canDelete = isAdmin || (user && user.email === idea.email);
-                const deleteBtn = canDelete
-                    ? '<button class="idea-delete" onclick="deleteIdea(\'' + key + '\')" title="Удалить"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>'
+                const isAuthor = user && user.email === idea.email;
+                const actions = isAuthor
+                    ? '<div class="idea-actions">' +
+                        '<button class="idea-action-btn" onclick="editIdea(\'' + key + '\')" title="Редактировать"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>' +
+                        '<button class="idea-action-btn delete" onclick="deleteIdea(\'' + key + '\')" title="Удалить"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>' +
+                      '</div>'
                     : '';
+
+                const imagesHtml = idea.images
+                    ? '<div class="idea-images">' + idea.images.map(src =>
+                        '<img src="' + src + '" onclick="window.open(this.src)" referrerpolicy="no-referrer">'
+                      ).join('') + '</div>'
+                    : '';
+
+                const edited = idea.editedAt ? ' <span style="font-size:0.65rem;color:#aaa;">(edited)</span>' : '';
+
                 return '<div class="idea-card">' +
-                    '<img src="' + (idea.picture || '') + '" alt="" referrerpolicy="no-referrer">' +
-                    '<div class="idea-content">' +
-                        '<div class="idea-header">' +
-                            '<span class="idea-author">' + (idea.name || 'Аноним') + '</span>' +
-                            '<span class="idea-time">' + timeAgo(idea.ts) + '</span>' +
+                    '<div class="idea-top">' +
+                        '<img class="idea-avatar" src="' + (idea.picture || '') + '" alt="" referrerpolicy="no-referrer">' +
+                        '<div>' +
+                            '<span class="idea-author">' + esc(idea.name || 'Аноним') + '</span><br>' +
+                            '<span class="idea-time">' + timeAgo(idea.ts) + edited + '</span>' +
                         '</div>' +
-                        '<div class="idea-text">' + idea.text.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</div>' +
+                        actions +
                     '</div>' +
-                    deleteBtn +
+                    (idea.title ? '<div class="idea-title">' + esc(idea.title) + '</div>' : '') +
+                    (idea.text ? '<div class="idea-text">' + esc(idea.text) + '</div>' : '') +
+                    imagesHtml +
                 '</div>';
             }).join('');
         });
-
-        // Delete idea
-        window.deleteIdea = function(key) {
-            if (confirm('Удалить эту идею?')) {
-                ideasRef.child(key).remove();
-            }
-        };
     })();
     </script>
 
