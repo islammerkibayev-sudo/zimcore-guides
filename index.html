@@ -2009,6 +2009,134 @@
             background: rgba(255,107,107,0.08);
             color: #ff6b6b;
         }
+
+        /* ─── IDEAS TAB ─── */
+        .ideas-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 2rem;
+        }
+        .ideas-input {
+            flex: 1;
+            padding: 14px 18px;
+            border-radius: 14px;
+            border: 1px solid rgba(0,0,0,0.08);
+            background: rgba(255,255,255,0.7);
+            font-family: 'UpMax', sans-serif;
+            font-size: 0.9rem;
+            color: #1a1a2e;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        .ideas-input:focus {
+            border-color: rgba(124,92,252,0.4);
+            box-shadow: 0 0 0 3px rgba(124,92,252,0.1);
+        }
+        .ideas-input::placeholder { color: #aaa; }
+        body:not(.light-mode) .ideas-input {
+            background: rgba(255,255,255,0.06);
+            border-color: rgba(255,255,255,0.08);
+            color: #fff;
+        }
+        body:not(.light-mode) .ideas-input::placeholder { color: rgba(255,255,255,0.3); }
+        .ideas-submit {
+            padding: 14px 24px;
+            border-radius: 14px;
+            border: none;
+            background: #7c5cfc;
+            color: #fff;
+            font-family: 'UpMax', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        .ideas-submit:hover {
+            background: #6a4de0;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(124,92,252,0.3);
+        }
+        .ideas-submit:active { transform: scale(0.97); }
+        .ideas-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .idea-card {
+            display: flex;
+            gap: 12px;
+            padding: 16px;
+            border-radius: 16px;
+            background: rgba(255,255,255,0.7);
+            border: 1px solid rgba(0,0,0,0.05);
+            animation: cardReveal 0.5s cubic-bezier(0.16, 1.2, 0.3, 1) both;
+        }
+        body:not(.light-mode) .idea-card {
+            background: rgba(255,255,255,0.04);
+            border-color: rgba(255,255,255,0.06);
+        }
+        .idea-card img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        .idea-content { flex: 1; min-width: 0; }
+        .idea-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+        .idea-author {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #1a1a2e;
+        }
+        body:not(.light-mode) .idea-author { color: #fff; }
+        .idea-time {
+            font-size: 0.7rem;
+            color: #aaa;
+        }
+        body:not(.light-mode) .idea-time { color: rgba(255,255,255,0.3); }
+        .idea-text {
+            font-size: 0.9rem;
+            color: #333;
+            line-height: 1.5;
+        }
+        body:not(.light-mode) .idea-text { color: rgba(255,255,255,0.7); }
+        .idea-delete {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            border: none;
+            background: transparent;
+            color: #ccc;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            align-self: flex-start;
+            transition: all 0.2s ease;
+        }
+        .idea-delete:hover {
+            background: rgba(255,107,107,0.1);
+            color: #ff6b6b;
+        }
+        .ideas-empty {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #aaa;
+            font-size: 0.95rem;
+        }
+        body:not(.light-mode) .ideas-empty { color: rgba(255,255,255,0.3); }
+        .ideas-empty-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
     </style>
 </head>
 <body class="light-mode">
@@ -2105,6 +2233,11 @@
                 <span class="tab-dot"></span>
                 <span class="tab-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></span>
                 ZimFrame Guide
+            </button>
+            <button class="tab-btn" onclick="switchTab('ideas')">
+                <span class="tab-dot"></span>
+                <span class="tab-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+                Ideas
             </button>
         </div>
 
@@ -2438,6 +2571,20 @@
                         <div class="step-image" onclick="openLightbox('zimframe', 6)"><img src="zf-7.png" alt="AI Design"></div>
                     </div>
 
+                </div>
+            </div>
+
+            <!-- ═══ IDEAS ═══ -->
+            <div class="tab-panel" id="tab-ideas">
+                <div class="ideas-form">
+                    <input class="ideas-input" id="ideaInput" type="text" placeholder="Напиши идею для нового гайда или предложение..." maxlength="500">
+                    <button class="ideas-submit" onclick="submitIdea()">Отправить</button>
+                </div>
+                <div class="ideas-list" id="ideasList">
+                    <div class="ideas-empty">
+                        <div class="ideas-empty-icon">💡</div>
+                        Пока пусто. Будь первым!
+                    </div>
                 </div>
             </div>
 
@@ -3479,6 +3626,98 @@
                 }
             } catch(e) {}
         }
+    })();
+    </script>
+
+    <!-- Ideas System -->
+    <script>
+    (function() {
+        const ADMIN_EMAIL = 'islam.merkibayev@zimran.io';
+        const AUTH_KEY = 'zimcore_auth_user';
+        const db = firebase.database();
+        const ideasRef = db.ref('ideas');
+
+        function getCurrentUser() {
+            try {
+                return JSON.parse(localStorage.getItem(AUTH_KEY));
+            } catch(e) { return null; }
+        }
+
+        function timeAgo(ts) {
+            const diff = Date.now() - ts;
+            const mins = Math.floor(diff / 60000);
+            if (mins < 1) return 'только что';
+            if (mins < 60) return mins + ' мин назад';
+            const hrs = Math.floor(mins / 60);
+            if (hrs < 24) return hrs + ' ч назад';
+            const days = Math.floor(hrs / 24);
+            return days + ' дн назад';
+        }
+
+        // Submit idea
+        window.submitIdea = function() {
+            const input = document.getElementById('ideaInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const user = getCurrentUser();
+            if (!user) { alert('Сначала войди в аккаунт'); return; }
+
+            ideasRef.push({
+                text: text,
+                name: user.name || '',
+                email: user.email || '',
+                picture: user.picture || '',
+                ts: firebase.database.ServerValue.TIMESTAMP
+            });
+
+            input.value = '';
+        };
+
+        // Submit on Enter
+        document.getElementById('ideaInput').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') submitIdea();
+        });
+
+        // Listen for ideas
+        ideasRef.orderByChild('ts').on('value', snap => {
+            const listEl = document.getElementById('ideasList');
+            const data = snap.val();
+
+            if (!data) {
+                listEl.innerHTML = '<div class="ideas-empty"><div class="ideas-empty-icon">💡</div>Пока пусто. Будь первым!</div>';
+                return;
+            }
+
+            const user = getCurrentUser();
+            const isAdmin = user && user.email === ADMIN_EMAIL;
+            const ideas = Object.entries(data).sort((a, b) => (b[1].ts || 0) - (a[1].ts || 0));
+
+            listEl.innerHTML = ideas.map(([key, idea]) => {
+                const canDelete = isAdmin || (user && user.email === idea.email);
+                const deleteBtn = canDelete
+                    ? '<button class="idea-delete" onclick="deleteIdea(\'' + key + '\')" title="Удалить"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>'
+                    : '';
+                return '<div class="idea-card">' +
+                    '<img src="' + (idea.picture || '') + '" alt="" referrerpolicy="no-referrer">' +
+                    '<div class="idea-content">' +
+                        '<div class="idea-header">' +
+                            '<span class="idea-author">' + (idea.name || 'Аноним') + '</span>' +
+                            '<span class="idea-time">' + timeAgo(idea.ts) + '</span>' +
+                        '</div>' +
+                        '<div class="idea-text">' + idea.text.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</div>' +
+                    '</div>' +
+                    deleteBtn +
+                '</div>';
+            }).join('');
+        });
+
+        // Delete idea
+        window.deleteIdea = function(key) {
+            if (confirm('Удалить эту идею?')) {
+                ideasRef.child(key).remove();
+            }
+        };
     })();
     </script>
 
