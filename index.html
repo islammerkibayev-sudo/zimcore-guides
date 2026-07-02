@@ -2593,6 +2593,46 @@
             border-color: rgba(124,92,252,0.3);
             color: #a78bfa;
         }
+        .drama-text-block-wrap {
+            position: relative;
+            margin-top: 16px;
+        }
+        .drama-text-block {
+            margin: 0;
+            padding: 16px 50px 16px 18px;
+            border-radius: 12px;
+            background: rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,0,0,0.06);
+            font-size: 0.82rem;
+            line-height: 1.7;
+            color: #333;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        body:not(.light-mode) .drama-text-block {
+            background: rgba(255,255,255,0.04);
+            border-color: rgba(255,255,255,0.06);
+            color: rgba(255,255,255,0.75);
+        }
+        .drama-copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 32px; height: 32px;
+            border-radius: 8px;
+            border: 1px solid rgba(0,0,0,0.08);
+            background: rgba(255,255,255,0.8);
+            color: #888;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+        .drama-copy-btn:hover { border-color: #7c5cfc; color: #7c5cfc; background: rgba(124,92,252,0.05); }
+        .drama-copy-btn.copied { border-color: #22c55e; color: #22c55e; }
+        body:not(.light-mode) .drama-copy-btn { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.08); color: rgba(255,255,255,0.4); }
+        body:not(.light-mode) .drama-copy-btn:hover { border-color: #a78bfa; color: #a78bfa; }
     </style>
 </head>
 <body class="light-mode">
@@ -3051,8 +3091,26 @@
                         </div>
                         <div class="drama-step-body">
                             <img class="drama-step-img" src="DS Auto 1.png" alt="Подготовь Claude" onclick="window.open(this.src)">
-                            <div class="drama-step-files" id="dramaStep1Files">
-                                <!-- Файлы с промтами будут добавлены -->
+                            <div class="drama-text-block-wrap">
+                                <div class="drama-text-block" id="dramaText1">Я приложил примерный воркфлоу коллеги, мне нужно также, как выводить файл с промптами я приложил. Тебе нужно на них обучиться.
+Также запомни для себя железные правила, которые должны работать на все сценарии:</div>
+                                <button class="drama-copy-btn" onclick="copyDramaText('dramaText1', this)" title="Копировать">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                                </button>
+                            </div>
+                            <div class="drama-step-files">
+                                <a class="drama-file-btn" href="coursiv_meera_characters.md" download>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                                    coursiv_meera_characters.md
+                                </a>
+                                <a class="drama-file-btn" href="coursiv_meera_intros.md" download>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                                    coursiv_meera_intros.md
+                                </a>
+                                <a class="drama-file-btn" href="coursiv_meera_main.md" download>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                                    coursiv_meera_main.md
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -4168,6 +4226,21 @@
             } catch(e) {}
         }
     })();
+    </script>
+
+    <!-- Drama copy helper -->
+    <script>
+    function copyDramaText(id, btn) {
+        const text = document.getElementById(id).innerText;
+        navigator.clipboard.writeText(text).then(() => {
+            btn.classList.add('copied');
+            btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>';
+            setTimeout(() => {
+                btn.classList.remove('copied');
+                btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+            }, 2000);
+        });
+    }
     </script>
 
     <!-- Ideas System -->
