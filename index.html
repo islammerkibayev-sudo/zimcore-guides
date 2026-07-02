@@ -2310,6 +2310,210 @@
             font-size: 2.5rem;
             margin-bottom: 0.5rem;
         }
+
+        /* ─── IDEA TAGS ─── */
+        .idea-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 8px; }
+        .idea-tag {
+            font-size: 0.65rem;
+            padding: 3px 10px;
+            border-radius: 20px;
+            background: rgba(124,92,252,0.08);
+            color: #7c5cfc;
+            font-weight: 500;
+        }
+        .tag-picker { display: flex; gap: 6px; flex-wrap: wrap; }
+        .tag-picker-btn {
+            font-size: 0.7rem;
+            padding: 4px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(0,0,0,0.08);
+            background: transparent;
+            color: #888;
+            cursor: pointer;
+            font-family: 'UpMax', sans-serif;
+            transition: all 0.2s ease;
+        }
+        .tag-picker-btn.selected {
+            background: rgba(124,92,252,0.1);
+            color: #7c5cfc;
+            border-color: rgba(124,92,252,0.3);
+        }
+        .tag-picker-btn:hover { border-color: #7c5cfc; color: #7c5cfc; }
+        body:not(.light-mode) .tag-picker-btn { border-color: rgba(255,255,255,0.08); color: rgba(255,255,255,0.4); }
+        body:not(.light-mode) .tag-picker-btn.selected { background: rgba(124,92,252,0.15); color: #a78bfa; border-color: rgba(124,92,252,0.3); }
+
+        /* ─── IDEA UPVOTE ─── */
+        .idea-upvote {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(0,0,0,0.06);
+            background: transparent;
+            color: #888;
+            font-family: 'UpMax', sans-serif;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 10px;
+        }
+        .idea-upvote:hover { border-color: #7c5cfc; color: #7c5cfc; }
+        .idea-upvote.voted {
+            background: rgba(124,92,252,0.08);
+            border-color: rgba(124,92,252,0.25);
+            color: #7c5cfc;
+        }
+        body:not(.light-mode) .idea-upvote { border-color: rgba(255,255,255,0.06); color: rgba(255,255,255,0.4); }
+        body:not(.light-mode) .idea-upvote.voted { background: rgba(124,92,252,0.12); color: #a78bfa; }
+        .upvote-avatars { display: flex; margin-left: 4px; }
+        .upvote-avatars img { width: 16px; height: 16px; border-radius: 50%; margin-left: -4px; border: 1.5px solid #fff; }
+        .upvote-avatars img:first-child { margin-left: 0; }
+        body:not(.light-mode) .upvote-avatars img { border-color: #1a1a2e; }
+
+        /* ─── IDEA STATUS ─── */
+        .idea-status {
+            display: inline-block;
+            font-size: 0.6rem;
+            font-weight: 500;
+            padding: 2px 8px;
+            border-radius: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+        .idea-status.new { background: rgba(59,130,246,0.1); color: #3b82f6; }
+        .idea-status.progress { background: rgba(245,158,11,0.1); color: #f59e0b; }
+        .idea-status.done { background: rgba(34,197,94,0.1); color: #22c55e; }
+        .idea-status.rejected { background: rgba(239,68,68,0.08); color: #ef4444; }
+        .status-picker {
+            display: flex;
+            gap: 4px;
+            margin-top: 8px;
+        }
+        .status-pick-btn {
+            font-size: 0.65rem;
+            padding: 3px 10px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-family: 'UpMax', sans-serif;
+            transition: all 0.2s ease;
+            opacity: 0.5;
+        }
+        .status-pick-btn:hover, .status-pick-btn.active { opacity: 1; }
+        .status-pick-btn.s-new { background: rgba(59,130,246,0.1); color: #3b82f6; }
+        .status-pick-btn.s-progress { background: rgba(245,158,11,0.1); color: #f59e0b; }
+        .status-pick-btn.s-done { background: rgba(34,197,94,0.1); color: #22c55e; }
+        .status-pick-btn.s-rejected { background: rgba(239,68,68,0.08); color: #ef4444; }
+
+        /* ─── IDEA COMMENTS ─── */
+        .idea-comments { margin-top: 12px; border-top: 1px solid rgba(0,0,0,0.04); padding-top: 10px; }
+        body:not(.light-mode) .idea-comments { border-top-color: rgba(255,255,255,0.04); }
+        .idea-comment {
+            display: flex;
+            gap: 8px;
+            padding: 6px 0;
+        }
+        .idea-comment img { width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0; margin-top: 2px; }
+        .comment-body { flex: 1; }
+        .comment-author { font-size: 0.7rem; font-weight: 500; color: #1a1a2e; }
+        body:not(.light-mode) .comment-author { color: #fff; }
+        .comment-text { font-size: 0.75rem; color: #555; line-height: 1.4; }
+        body:not(.light-mode) .comment-text { color: rgba(255,255,255,0.5); }
+        .comment-time { font-size: 0.6rem; color: #bbb; }
+        .comment-input-row { display: flex; gap: 6px; margin-top: 8px; }
+        .comment-input {
+            flex: 1;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(0,0,0,0.06);
+            background: rgba(255,255,255,0.5);
+            font-family: 'UpMax', sans-serif;
+            font-size: 0.8rem;
+            color: #1a1a2e;
+            outline: none;
+        }
+        .comment-input:focus { border-color: rgba(124,92,252,0.3); }
+        body:not(.light-mode) .comment-input { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.06); color: #fff; }
+        .comment-send {
+            padding: 8px 14px;
+            border-radius: 8px;
+            border: none;
+            background: #7c5cfc;
+            color: #fff;
+            font-size: 0.75rem;
+            cursor: pointer;
+            font-family: 'UpMax', sans-serif;
+        }
+        .comment-send:hover { background: #6a4de0; }
+
+        /* ─── LEADERBOARD ─── */
+        .ideas-leaderboard {
+            margin-bottom: 1.5rem;
+            padding: 16px;
+            border-radius: 14px;
+            background: rgba(255,255,255,0.7);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        body:not(.light-mode) .ideas-leaderboard { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.06); }
+        .leaderboard-title {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #aaa;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        body:not(.light-mode) .leaderboard-title { color: rgba(255,255,255,0.3); }
+        .leaderboard-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 0;
+        }
+        .leaderboard-rank {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #aaa;
+            width: 20px;
+            text-align: center;
+        }
+        .leaderboard-row img { width: 24px; height: 24px; border-radius: 50%; }
+        .leaderboard-name { font-size: 0.8rem; color: #1a1a2e; flex: 1; }
+        body:not(.light-mode) .leaderboard-name { color: #fff; }
+        .leaderboard-stat {
+            font-size: 0.7rem;
+            color: #7c5cfc;
+            font-weight: 500;
+        }
+
+        /* ─── TAG FILTER BAR ─── */
+        .ideas-filter-bar {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+        .filter-tag-btn {
+            font-size: 0.7rem;
+            padding: 5px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(0,0,0,0.06);
+            background: transparent;
+            color: #888;
+            cursor: pointer;
+            font-family: 'UpMax', sans-serif;
+            transition: all 0.2s ease;
+        }
+        .filter-tag-btn.active {
+            background: #7c5cfc;
+            color: #fff;
+            border-color: #7c5cfc;
+        }
+        .filter-tag-btn:hover { border-color: #7c5cfc; }
+        body:not(.light-mode) .filter-tag-btn { border-color: rgba(255,255,255,0.06); color: rgba(255,255,255,0.4); }
     </style>
 </head>
 <body class="light-mode">
@@ -2406,6 +2610,11 @@
                 <span class="tab-dot"></span>
                 <span class="tab-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></span>
                 ZimFrame Guide
+            </button>
+            <button class="tab-btn" onclick="switchTab('drama')">
+                <span class="tab-dot"></span>
+                <span class="tab-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/><line x1="17" y1="17" x2="22" y2="17"/></svg></span>
+                Drama Shorts
             </button>
             <button class="tab-btn" onclick="switchTab('ideas')">
                 <span class="tab-dot"></span>
@@ -2747,6 +2956,21 @@
                 </div>
             </div>
 
+            <!-- ═══ DRAMA SHORTS AUTOMATION ═══ -->
+            <div class="tab-panel" id="tab-drama">
+                <div style="margin-bottom: 1.5rem;">
+                    <h2 style="font-size: 1.3rem; font-weight: 500; margin-bottom: 0.4rem;">🎬 Drama Shorts Automation</h2>
+                    <p style="font-size: 0.85rem; color: var(--text2); line-height: 1.5;">Полный гайд по автоматизации создания Drama Shorts — от идеи до публикации.</p>
+                </div>
+                <div class="cards-grid">
+                    <!-- Cards will be added here -->
+                    <div style="text-align:center; padding: 3rem 1rem; color: #aaa; grid-column: 1/-1;">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🎬</div>
+                        Гайды скоро появятся
+                    </div>
+                </div>
+            </div>
+
             <!-- ═══ IDEAS ═══ -->
             <div class="tab-panel" id="tab-ideas">
                 <div style="margin-bottom: 1.5rem;">
@@ -2773,12 +2997,41 @@
                         </div>
                         <div class="ideas-img-preview" id="ideaImgPreview"></div>
                     </div>
+                    <div class="form-row">
+                        <label>Теги</label>
+                        <div class="tag-picker" id="ideaTagPicker">
+                            <button type="button" class="tag-picker-btn" data-tag="гайд" onclick="toggleFormTag(this)">#гайд</button>
+                            <button type="button" class="tag-picker-btn" data-tag="тулза" onclick="toggleFormTag(this)">#тулза</button>
+                            <button type="button" class="tag-picker-btn" data-tag="процесс" onclick="toggleFormTag(this)">#процесс</button>
+                            <button type="button" class="tag-picker-btn" data-tag="баг" onclick="toggleFormTag(this)">#баг</button>
+                            <button type="button" class="tag-picker-btn" data-tag="дизайн" onclick="toggleFormTag(this)">#дизайн</button>
+                            <button type="button" class="tag-picker-btn" data-tag="dev" onclick="toggleFormTag(this)">#dev</button>
+                        </div>
+                    </div>
                     <input type="hidden" id="ideaEditKey" value="">
                     <div class="ideas-form-actions">
                         <button class="ideas-cancel" id="ideaCancelBtn" onclick="cancelIdeaEdit()">Отмена</button>
                         <button class="ideas-submit" onclick="submitIdea()">Отправить</button>
                     </div>
                 </div>
+
+                <!-- Leaderboard -->
+                <div class="ideas-leaderboard" id="ideasLeaderboard" style="display:none;">
+                    <div class="leaderboard-title">🏆 Топ контрибьюторов</div>
+                    <div id="leaderboardRows"></div>
+                </div>
+
+                <!-- Tag Filter Bar -->
+                <div class="ideas-filter-bar" id="ideasFilterBar">
+                    <button class="filter-tag-btn active" data-filter="all" onclick="filterByTag('all', this)">Все</button>
+                    <button class="filter-tag-btn" data-filter="гайд" onclick="filterByTag('гайд', this)">#гайд</button>
+                    <button class="filter-tag-btn" data-filter="тулза" onclick="filterByTag('тулза', this)">#тулза</button>
+                    <button class="filter-tag-btn" data-filter="процесс" onclick="filterByTag('процесс', this)">#процесс</button>
+                    <button class="filter-tag-btn" data-filter="баг" onclick="filterByTag('баг', this)">#баг</button>
+                    <button class="filter-tag-btn" data-filter="дизайн" onclick="filterByTag('дизайн', this)">#дизайн</button>
+                    <button class="filter-tag-btn" data-filter="dev" onclick="filterByTag('dev', this)">#dev</button>
+                </div>
+
                 <div class="ideas-list" id="ideasList">
                     <div class="ideas-empty">
                         <div class="ideas-empty-icon">💡</div>
@@ -3832,15 +4085,30 @@
     <script>
     (function() {
         const AUTH_KEY = 'zimcore_auth_user';
+        const ADMIN_EMAIL = 'islam.merkibayev@zimran.io';
+        const TAGS = ['гайд','тулза','процесс','баг','дизайн','dev'];
+        const STATUS_MAP = {
+            new: { label: 'New', cls: 'new' },
+            progress: { label: 'In Progress', cls: 'progress' },
+            done: { label: 'Done', cls: 'done' },
+            rejected: { label: 'Rejected', cls: 'rejected' }
+        };
         const db = firebase.database();
         const ideasRef = db.ref('ideas');
         let ideaImages = [];
+        let selectedTags = [];
+        let activeFilter = 'all';
+        let allIdeasCache = null;
 
         function getCurrentUser() {
             try { return JSON.parse(localStorage.getItem(AUTH_KEY)); }
             catch(e) { return null; }
         }
-
+        function isAdmin() {
+            const u = getCurrentUser();
+            return u && u.email === ADMIN_EMAIL;
+        }
+        function emailKey(email) { return (email || '').replace(/[.@]/g, '_'); }
         function esc(s) { return (s || '').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
 
         function timeAgo(ts) {
@@ -3854,82 +4122,92 @@
             return days + ' дн назад';
         }
 
-        // Image handling
+        /* ═══ TAG PICKER IN FORM ═══ */
+        window.toggleFormTag = function(btn) {
+            const tag = btn.dataset.tag;
+            const idx = selectedTags.indexOf(tag);
+            if (idx > -1) { selectedTags.splice(idx, 1); btn.classList.remove('selected'); }
+            else { selectedTags.push(tag); btn.classList.add('selected'); }
+        };
+        function resetFormTags() {
+            selectedTags = [];
+            document.querySelectorAll('#ideaTagPicker .tag-picker-btn').forEach(b => b.classList.remove('selected'));
+        }
+        function setFormTags(tags) {
+            resetFormTags();
+            if (!tags) return;
+            tags.forEach(t => {
+                selectedTags.push(t);
+                const btn = document.querySelector('#ideaTagPicker .tag-picker-btn[data-tag="' + t + '"]');
+                if (btn) btn.classList.add('selected');
+            });
+        }
+
+        /* ═══ TAG FILTER ═══ */
+        window.filterByTag = function(tag, btn) {
+            activeFilter = tag;
+            document.querySelectorAll('#ideasFilterBar .filter-tag-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderIdeas(allIdeasCache);
+        };
+
+        /* ═══ IMAGE HANDLING ═══ */
         window.handleIdeaImages = function(input) {
-            const files = Array.from(input.files);
-            files.forEach(file => {
-                if (file.size > 2 * 1024 * 1024) {
-                    alert('Картинка слишком большая (макс 2MB): ' + file.name);
-                    return;
-                }
+            Array.from(input.files).forEach(file => {
+                if (file.size > 2 * 1024 * 1024) { alert('Макс 2MB: ' + file.name); return; }
                 const reader = new FileReader();
-                reader.onload = (e) => {
-                    ideaImages.push(e.target.result);
-                    renderImagePreviews();
-                };
+                reader.onload = (e) => { ideaImages.push(e.target.result); renderImagePreviews(); };
                 reader.readAsDataURL(file);
             });
             input.value = '';
         };
-
         function renderImagePreviews() {
-            const el = document.getElementById('ideaImgPreview');
-            el.innerHTML = ideaImages.map((src, i) =>
-                '<div class="img-thumb">' +
-                    '<img src="' + src + '">' +
-                    '<button class="img-remove" onclick="removeIdeaImage(' + i + ')">×</button>' +
-                '</div>'
+            document.getElementById('ideaImgPreview').innerHTML = ideaImages.map((src, i) =>
+                '<div class="img-thumb"><img src="' + src + '"><button class="img-remove" onclick="removeIdeaImage(' + i + ')">×</button></div>'
             ).join('');
         }
+        window.removeIdeaImage = function(i) { ideaImages.splice(i, 1); renderImagePreviews(); };
 
-        window.removeIdeaImage = function(i) {
-            ideaImages.splice(i, 1);
-            renderImagePreviews();
-        };
-
-        // Submit / Update
+        /* ═══ SUBMIT / UPDATE ═══ */
         window.submitIdea = function() {
             const title = document.getElementById('ideaTitle').value.trim();
             const desc = document.getElementById('ideaDesc').value.trim();
             const editKey = document.getElementById('ideaEditKey').value;
-
             if (!title) { alert('Напиши название идеи'); return; }
-
             const user = getCurrentUser();
             if (!user) { alert('Сначала войди в аккаунт'); return; }
 
-            const data = {
-                title: title,
-                text: desc,
-                images: ideaImages.length > 0 ? ideaImages : null,
-                name: user.name || '',
-                email: user.email || '',
-                picture: user.picture || '',
-                ts: firebase.database.ServerValue.TIMESTAMP
-            };
-
             if (editKey) {
-                // Update — keep original author
                 ideasRef.child(editKey).update({
                     title: title,
                     text: desc,
                     images: ideaImages.length > 0 ? ideaImages : null,
+                    tags: selectedTags.length > 0 ? selectedTags : null,
                     editedAt: firebase.database.ServerValue.TIMESTAMP
                 });
             } else {
-                ideasRef.push(data);
+                ideasRef.push({
+                    title: title,
+                    text: desc,
+                    images: ideaImages.length > 0 ? ideaImages : null,
+                    tags: selectedTags.length > 0 ? selectedTags : null,
+                    status: 'new',
+                    name: user.name || '',
+                    email: user.email || '',
+                    picture: user.picture || '',
+                    ts: firebase.database.ServerValue.TIMESTAMP
+                });
             }
-
-            // Reset form
             document.getElementById('ideaTitle').value = '';
             document.getElementById('ideaDesc').value = '';
             document.getElementById('ideaEditKey').value = '';
             document.getElementById('ideaCancelBtn').style.display = 'none';
             ideaImages = [];
             renderImagePreviews();
+            resetFormTags();
         };
 
-        // Edit idea (only author)
+        /* ═══ EDIT / CANCEL / DELETE ═══ */
         window.editIdea = function(key) {
             ideasRef.child(key).once('value', snap => {
                 const idea = snap.val();
@@ -3940,11 +4218,10 @@
                 document.getElementById('ideaCancelBtn').style.display = 'inline-block';
                 ideaImages = idea.images || [];
                 renderImagePreviews();
+                setFormTags(idea.tags);
                 document.getElementById('ideaFormCard').scrollIntoView({ behavior: 'smooth', block: 'center' });
             });
         };
-
-        // Cancel edit
         window.cancelIdeaEdit = function() {
             document.getElementById('ideaTitle').value = '';
             document.getElementById('ideaDesc').value = '';
@@ -3952,30 +4229,105 @@
             document.getElementById('ideaCancelBtn').style.display = 'none';
             ideaImages = [];
             renderImagePreviews();
+            resetFormTags();
         };
-
-        // Delete idea (only author)
         window.deleteIdea = function(key) {
-            if (confirm('Удалить эту идею?')) {
-                ideasRef.child(key).remove();
-            }
+            if (confirm('Удалить эту идею?')) ideasRef.child(key).remove();
         };
 
-        // Listen for ideas
-        ideasRef.orderByChild('ts').on('value', snap => {
-            const listEl = document.getElementById('ideasList');
-            const data = snap.val();
+        /* ═══ UPVOTE ═══ */
+        window.toggleUpvote = function(key) {
+            const user = getCurrentUser();
+            if (!user) return;
+            const ek = emailKey(user.email);
+            const voteRef = ideasRef.child(key + '/votes/' + ek);
+            voteRef.once('value', snap => {
+                if (snap.exists()) {
+                    voteRef.remove();
+                } else {
+                    voteRef.set({ name: user.name || '', picture: user.picture || '' });
+                }
+            });
+        };
 
+        /* ═══ STATUS (ADMIN ONLY) ═══ */
+        window.setIdeaStatus = function(key, status) {
+            if (!isAdmin()) return;
+            ideasRef.child(key).update({ status: status });
+        };
+
+        /* ═══ COMMENTS ═══ */
+        window.addComment = function(key) {
+            const input = document.getElementById('commentInput_' + key);
+            if (!input) return;
+            const text = input.value.trim();
+            if (!text) return;
+            const user = getCurrentUser();
+            if (!user) return;
+            ideasRef.child(key + '/comments').push({
+                text: text,
+                name: user.name || '',
+                email: user.email || '',
+                picture: user.picture || '',
+                ts: firebase.database.ServerValue.TIMESTAMP
+            });
+            input.value = '';
+        };
+        window.commentKeydown = function(e, key) {
+            if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); addComment(key); }
+        };
+
+        /* ═══ LEADERBOARD ═══ */
+        function buildLeaderboard(ideasData) {
+            const lb = {};
+            if (!ideasData) return;
+            Object.values(ideasData).forEach(idea => {
+                const ek = emailKey(idea.email);
+                if (!lb[ek]) lb[ek] = { name: idea.name, picture: idea.picture, ideas: 0, upvotes: 0 };
+                lb[ek].ideas++;
+                if (idea.votes) lb[ek].upvotes += Object.keys(idea.votes).length;
+            });
+            const sorted = Object.values(lb).sort((a, b) => (b.ideas + b.upvotes) - (a.ideas + a.upvotes)).slice(0, 5);
+            const container = document.getElementById('ideasLeaderboard');
+            const rows = document.getElementById('leaderboardRows');
+            if (sorted.length === 0) { container.style.display = 'none'; return; }
+            container.style.display = 'block';
+            rows.innerHTML = sorted.map((u, i) => {
+                const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : (i + 1);
+                return '<div class="leaderboard-row">' +
+                    '<span class="leaderboard-rank">' + medal + '</span>' +
+                    '<img src="' + (u.picture || '') + '" alt="" referrerpolicy="no-referrer">' +
+                    '<span class="leaderboard-name">' + esc(u.name || 'Аноним') + '</span>' +
+                    '<span class="leaderboard-stat">' + u.ideas + ' идей · ' + u.upvotes + ' 👍</span>' +
+                '</div>';
+            }).join('');
+        }
+
+        /* ═══ RENDER IDEAS ═══ */
+        function renderIdeas(data) {
+            const listEl = document.getElementById('ideasList');
             if (!data) {
                 listEl.innerHTML = '<div class="ideas-empty"><div class="ideas-empty-icon">💡</div>Пока пусто. Будь первым!</div>';
                 return;
             }
-
             const user = getCurrentUser();
-            const ideas = Object.entries(data).sort((a, b) => (b[1].ts || 0) - (a[1].ts || 0));
+            const admin = isAdmin();
+            let ideas = Object.entries(data).sort((a, b) => (b[1].ts || 0) - (a[1].ts || 0));
+
+            // Tag filter
+            if (activeFilter !== 'all') {
+                ideas = ideas.filter(([, idea]) => idea.tags && idea.tags.includes(activeFilter));
+            }
+
+            if (ideas.length === 0) {
+                listEl.innerHTML = '<div class="ideas-empty"><div class="ideas-empty-icon">🔍</div>Нет идей с таким тегом</div>';
+                return;
+            }
 
             listEl.innerHTML = ideas.map(([key, idea]) => {
                 const isAuthor = user && user.email === idea.email;
+
+                // Actions (edit/delete)
                 const actions = isAuthor
                     ? '<div class="idea-actions">' +
                         '<button class="idea-action-btn" onclick="event.stopPropagation(); editIdea(\'' + key + '\')" title="Редактировать"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>' +
@@ -3983,35 +4335,99 @@
                       '</div>'
                     : '';
 
+                // Status badge
+                const st = idea.status && STATUS_MAP[idea.status]
+                    ? '<span class="idea-status ' + STATUS_MAP[idea.status].cls + '">' + STATUS_MAP[idea.status].label + '</span>'
+                    : '';
+
+                // Tags
+                const tagsHtml = idea.tags && idea.tags.length
+                    ? '<div class="idea-tags">' + idea.tags.map(t => '<span class="idea-tag">#' + esc(t) + '</span>').join('') + '</div>'
+                    : '';
+
+                // Upvote
+                const votes = idea.votes ? Object.entries(idea.votes) : [];
+                const voteCount = votes.length;
+                const userVoted = user && idea.votes && idea.votes[emailKey(user.email)];
+                const avatarsHtml = votes.slice(0, 5).map(([, v]) =>
+                    '<img src="' + (v.picture || '') + '" alt="" referrerpolicy="no-referrer">'
+                ).join('');
+                const upvoteHtml = '<button class="idea-upvote' + (userVoted ? ' voted' : '') + '" onclick="event.stopPropagation(); toggleUpvote(\'' + key + '\')">' +
+                    '👍 ' + voteCount +
+                    (avatarsHtml ? '<span class="upvote-avatars">' + avatarsHtml + '</span>' : '') +
+                '</button>';
+
+                // Thumbnail
+                const thumbHtml = idea.images && idea.images.length > 0
+                    ? '<img class="idea-thumb" src="' + idea.images[0] + '" referrerpolicy="no-referrer">'
+                    : '';
+
+                // Expanded content
                 const imagesHtml = idea.images
                     ? '<div class="idea-images">' + idea.images.map(src =>
                         '<img src="' + src + '" onclick="event.stopPropagation(); window.open(this.src)" referrerpolicy="no-referrer">'
                       ).join('') + '</div>'
                     : '';
 
-                const thumbHtml = idea.images && idea.images.length > 0
-                    ? '<img class="idea-thumb" src="' + idea.images[0] + '" referrerpolicy="no-referrer">'
+                const edited = idea.editedAt ? ' <span style="font-size:0.65rem;color:#aaa;">(edited)</span>' : '';
+
+                // Status picker (admin only, in expanded view)
+                const statusPickerHtml = admin
+                    ? '<div class="status-picker">' +
+                        '<button class="status-pick-btn s-new' + (idea.status === 'new' ? ' active' : '') + '" onclick="event.stopPropagation(); setIdeaStatus(\'' + key + '\',\'new\')">New</button>' +
+                        '<button class="status-pick-btn s-progress' + (idea.status === 'progress' ? ' active' : '') + '" onclick="event.stopPropagation(); setIdeaStatus(\'' + key + '\',\'progress\')">In Progress</button>' +
+                        '<button class="status-pick-btn s-done' + (idea.status === 'done' ? ' active' : '') + '" onclick="event.stopPropagation(); setIdeaStatus(\'' + key + '\',\'done\')">Done</button>' +
+                        '<button class="status-pick-btn s-rejected' + (idea.status === 'rejected' ? ' active' : '') + '" onclick="event.stopPropagation(); setIdeaStatus(\'' + key + '\',\'rejected\')">Rejected</button>' +
+                      '</div>'
                     : '';
 
-                const edited = idea.editedAt ? ' <span style="font-size:0.65rem;color:#aaa;">(edited)</span>' : '';
+                // Comments
+                const comments = idea.comments ? Object.entries(idea.comments).sort((a, b) => (a[1].ts || 0) - (b[1].ts || 0)) : [];
+                const commentsHtml = '<div class="idea-comments">' +
+                    (comments.length > 0 ? comments.map(([, c]) =>
+                        '<div class="idea-comment">' +
+                            '<img src="' + (c.picture || '') + '" alt="" referrerpolicy="no-referrer">' +
+                            '<div class="comment-body">' +
+                                '<span class="comment-author">' + esc(c.name || 'Аноним') + '</span> ' +
+                                '<span class="comment-time">' + timeAgo(c.ts) + '</span>' +
+                                '<div class="comment-text">' + esc(c.text) + '</div>' +
+                            '</div>' +
+                        '</div>'
+                    ).join('') : '') +
+                    '<div class="comment-input-row">' +
+                        '<input class="comment-input" id="commentInput_' + key + '" placeholder="Написать комментарий..." onclick="event.stopPropagation()" onkeydown="commentKeydown(event,\'' + key + '\')">' +
+                        '<button class="comment-send" onclick="event.stopPropagation(); addComment(\'' + key + '\')">→</button>' +
+                    '</div>' +
+                '</div>';
 
                 return '<div class="idea-card" onclick="this.classList.toggle(\'open\')">' +
                     '<div class="idea-top">' +
                         '<img class="idea-avatar" src="' + (idea.picture || '') + '" alt="" referrerpolicy="no-referrer">' +
                         '<div>' +
-                            '<span class="idea-author">' + esc(idea.name || 'Аноним') + '</span><br>' +
+                            '<span class="idea-author">' + esc(idea.name || 'Аноним') + '</span>' + st + '<br>' +
                             '<span class="idea-time">' + timeAgo(idea.ts) + edited + '</span>' +
                         '</div>' +
                         actions +
                     '</div>' +
                     (idea.title ? '<div class="idea-title">' + esc(idea.title) + '</div>' : '') +
+                    tagsHtml +
                     thumbHtml +
+                    upvoteHtml +
                     '<div class="idea-expand">' +
                         (idea.text ? '<div class="idea-text">' + esc(idea.text) + '</div>' : '') +
                         imagesHtml +
+                        statusPickerHtml +
+                        commentsHtml +
                     '</div>' +
                 '</div>';
             }).join('');
+        }
+
+        /* ═══ LISTEN FOR IDEAS ═══ */
+        ideasRef.orderByChild('ts').on('value', snap => {
+            allIdeasCache = snap.val();
+            renderIdeas(allIdeasCache);
+            buildLeaderboard(allIdeasCache);
         });
     })();
     </script>
