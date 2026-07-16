@@ -2552,15 +2552,29 @@
         .drama-step-body {
             padding: 0 24px 24px;
         }
-        .drama-step-img {
-            max-width: 100%;
+        .drama-step-img-wrap {
             width: 100%;
-            margin-bottom: 12px;
-            border-radius: 12px;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.15);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s;
             cursor: pointer;
-            transition: transform 0.2s ease;
+            margin-bottom: 16px;
         }
-        .drama-step-img:hover { transform: scale(1.03); }
+        .drama-step-img-wrap:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+        }
+        body.light-mode .drama-step-img-wrap {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1), 0 12px 40px rgba(0,0,0,0.06);
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+        .drama-step-img-wrap img {
+            width: 100%;
+            display: block;
+            border-radius: 15px;
+        }
         .drama-step-files {
             display: flex;
             gap: 10px;
@@ -3106,7 +3120,7 @@
                             <span class="drama-step-title">Подготовь Claude</span>
                         </div>
                         <div class="drama-step-body">
-                            <img class="drama-step-img" src="DS Auto 1.png" alt="Подготовь Claude" onclick="window.open(this.src)">
+                            <div class="drama-step-img-wrap" onclick="window.open(this.querySelector('img').src)"><img class="drama-img" src="DS Auto 1.png" alt="Подготовь Claude"></div>
                             <div class="drama-text-block-wrap">
                                 <div class="drama-text-block" id="dramaText1">Я приложил примерный воркфлоу коллеги, мне нужно также, как выводить файл с промптами я приложил. Тебе нужно на них обучиться.
 Также запомни для себя железные правила, которые должны работать на все сценарии:
@@ -3156,9 +3170,9 @@
                             <span class="drama-step-title">Создай задачу для чата</span>
                         </div>
                         <div class="drama-step-body">
-                            <img class="drama-step-img" src="DS Auto 2.png" alt="Шаг 2-1" onclick="window.open(this.src)">
-                            <img class="drama-step-img" src="DS Auto 3.png" alt="Шаг 2-2" onclick="window.open(this.src)">
-                            <img class="drama-step-img" src="DS Auto 4.png" alt="Шаг 2-3" onclick="window.open(this.src)">
+                            <div class="drama-step-img-wrap" onclick="window.open(this.querySelector('img').src)"><img class="drama-img" src="DS Auto 2.png" alt="Шаг 2-1"></div>
+                            <div class="drama-step-img-wrap" onclick="window.open(this.querySelector('img').src)"><img class="drama-img" src="DS Auto 3.png" alt="Шаг 2-2"></div>
+                            <div class="drama-step-img-wrap" onclick="window.open(this.querySelector('img').src)"><img class="drama-img" src="DS Auto 4.png" alt="Шаг 2-3"></div>
                         </div>
                     </div>
 
@@ -3169,9 +3183,9 @@
                             <span class="drama-step-title">Запуск генерации через Agent Runs</span>
                         </div>
                         <div class="drama-step-body" id="dramaStep3Body">
-                            <img class="drama-step-img" src="DS Auto 5.png" alt="Шаг 3-1" onclick="window.open(this.src)">
-                            <img class="drama-step-img" src="DS Auto 6.png" alt="Шаг 3-2" onclick="window.open(this.src)">
-                            <img class="drama-step-img" src="DS Auto 7.png" alt="Шаг 3-3" onclick="window.open(this.src)">
+                            <div class="drama-step-img-wrap" onclick="window.open(this.querySelector('img').src)"><img class="drama-img" src="DS Auto 5.png" alt="Шаг 3-1"></div>
+                            <div class="drama-step-img-wrap" onclick="window.open(this.querySelector('img').src)"><img class="drama-img" src="DS Auto 6.png" alt="Шаг 3-2"></div>
+                            <div class="drama-step-img-wrap" onclick="window.open(this.querySelector('img').src)"><img class="drama-img" src="DS Auto 7.png" alt="Шаг 3-3"></div>
                         </div>
                     </div>
 
@@ -3187,11 +3201,11 @@
                 <div class="drama-steps">
                     <div class="drama-step">
                         <div class="drama-step-body">
-                            <img class="drama-step-img" src="Localization 1.png" alt="Localization 1" onclick="window.open(this.src)">
-                            <img class="drama-step-img" src="Localization 2.png" alt="Localization 2" onclick="window.open(this.src)">
-                            <img class="drama-step-img" src="Localization 3.png" alt="Localization 3" onclick="window.open(this.src)">
-                            <img class="drama-step-img" src="Localization 4.png" alt="Localization 4" onclick="window.open(this.src)">
-                            <img class="drama-step-img" src="Localization 5.png" alt="Localization 5" onclick="window.open(this.src)">
+                            <div class="drama-step-img-wrap" onclick="window.open(this.querySelector('img').src)"><img class="drama-img" src="Localization 1.png" alt="Localization 1"></div>
+                            <div class="drama-step-img-wrap" onclick="window.open(this.querySelector('img').src)"><img class="drama-img" src="Localization 2.png" alt="Localization 2"></div>
+                            <div class="drama-step-img-wrap" onclick="window.open(this.querySelector('img').src)"><img class="drama-img" src="Localization 3.png" alt="Localization 3"></div>
+                            <div class="drama-step-img-wrap" onclick="window.open(this.querySelector('img').src)"><img class="drama-img" src="Localization 4.png" alt="Localization 4"></div>
+                            <div class="drama-step-img-wrap" onclick="window.open(this.querySelector('img').src)"><img class="drama-img" src="Localization 5.png" alt="Localization 5"></div>
                         </div>
                     </div>
                 </div>
